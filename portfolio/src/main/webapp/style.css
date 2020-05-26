@@ -6,4 +6,19 @@
 
 #greeting-container {
   margin-top: 20px;
+  margin-bottom :30px;
+}
+
+.header-pic img{
+  width: 100%;
+  height: auto;    
+}
+
+.gallery-pics {
+  display: flex;
+  flex-wrap: wrap;
+}
+.gallery-pics img{
+  width: 80%;
+  height: auto;    
 }
