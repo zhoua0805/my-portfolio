@@ -1,13 +1,15 @@
 # Google Student Training in Engineering Program
 
-This repo contains the projects you'll work on for the first half of STEP.
-This work is based on the [Google Software Product Sprint](https://g.co/softwareproductsprint) program.
+This repo contains Alice's portfolio and STEP projects.
 
-To get started:
+Hi, my name is **Alice**, a google STEP intern in summer 2020. 
 
-- Login to [Google Cloud Shell](https://ssh.cloud.google.com/cloudshell/editor)
-- Clone this repo: `cd; git clone https://github.com/googleinterns/step.git`
-- Open the GitHub setup walkthrough: `teachme ~/step/walkthroughs/week-1-setup/github-setup-walkthrough.md`
-  - If the tutorial panel does not open or display the walkthrough contents, try refreshing the page.
+Here are two truths and one lie about me:
+- My favourite subject in high school was Calculus. 
+- I don't like pineapples on pizza.
+- I have never been skydiving before. 
 
-Then follow the on-screen instructions to set up your repo.
+Welcome :) 
+
+
+
