@@ -9,7 +9,16 @@
   margin-bottom :30px;
 }
 
-.profile-pic img{
-  width: 50%;
+.header-pic img{
+  width: 100%;
+  height: auto;    
+}
+
+.gallery-pics {
+  display: flex;
+  flex-wrap: wrap;
+}
+.gallery-pics img{
+  width: 80%;
   height: auto;    
 }
