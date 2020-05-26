@@ -2,17 +2,60 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Alice's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   </head>
   <body>
     <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+        <h1>Alice Zhou</h1>
+        <h3>Welcome to my portfolio </h3>
+
+        <div class = "profile-pic">
+            <a href = "image/linkedin.jpg"> 
+                <img src = "image/linkedin.jpg" /> 
+            </a>
+        </div>
+
+        <!-- my background -->
+        <div> 
+            <p> Here I'll write about my background </p>
+        </div>
+
+        <!-- my projects -->
+        <div>
+            <p> Here're the list of projects I worked on </p>
+        </div>
+
+        <!-- my gallery -->
+        <div>
+            <p> insert photos </p>
+        </div>
+
+        <!-- contact me -->
+        <div>
+            <p> add linkedin, github, and gmail links </p>
+        </div>
+        
+        <p>Click here to get a random message:</p>
+        <button class="waves-effect waves-light btn" onclick="addRandomGreeting()">Hello</button>
+        <div id="greeting-container"></div>
+
+
+
     </div>
   </body>
 </html>
