@@ -14,7 +14,7 @@
 
 
  // generate the project contents when the project.html document is loaded
-window.onload = function generateProjectContent() {
+function generateProjectContent() {
       const projects = {
         "Accessible Mouse Design": ["Designed and prototyped a foot mouse with a pedal and a control base",
                                     "Created functional code using processing and java to satisfy all basic mouse functions including clicking, scrolling, and navigation",
@@ -46,17 +46,16 @@ window.onload = function generateProjectContent() {
 }
 
 //play a game of two truths and one lie
-function playGame() {
-    const truths = ['I play the piano.', 
+const truths = ['I play the piano.', 
                     'I don\'t like pineapples on pizza.',
                     'I have never been skydiving before.', 
                     'I am hungry.', 
                     'I visited my friend in Manchester last Christmas.', ]; 
-    const lies = ['My favourite subject in high school was Calculus.',  
-                    'I have two brothers.',
-                    'I was born in the year of the tiger.']; 
+const lies = ['My favourite subject in high school was Calculus.',  
+                'I have two brothers.',
+                'I was born in the year of the tiger.']; 
 
-
+function playGame() {
     // generate two truths and one lie
     truth_1_index = Math.floor(Math.random() * truths.length);
     do {
@@ -69,10 +68,36 @@ function playGame() {
     console.log (twoTruthsOneLie);
 
     // Add it to the page.
-    var TheInnerHTML ="<form action=\"#\">";
+    var TheInnerHTML ="<div>";
     for (i = 0; i < twoTruthsOneLie.length; i++) {
-        TheInnerHTML += "<label><input type=\"radio\" name =\"group1\" /><span class = \"black-text\">"+ twoTruthsOneLie[i] + "</span></label><br>";
+        TheInnerHTML += "<label> \
+                            <input type=\"radio\" name =\"group1\" id =" + i + " value=\""+ twoTruthsOneLie[i] + "\" onchange=\"printGameResult()\"/>\
+                            <span class = \"black-text\">"+ twoTruthsOneLie[i] + "</span>\
+                        </label><br>";
     }
-    TheInnerHTML += "</form>";
+    TheInnerHTML += "</div>";
     document.getElementById("game-container").innerHTML = TheInnerHTML;
+    document.getElementById("game-result").innerText = '';
+}
+
+function printGameResult() {
+    //get selected item
+    var result = '';
+    if (document.getElementById('0').checked) {
+        result = document.getElementById('0').value;
+    }else if (document.getElementById('1').checked) {
+        result = document.getElementById('1').value;
+    }else  {
+        result = document.getElementById('2').value;
+    }
+    console.log(result);
+
+    //check and print result
+    var TheInnerHTML = ''
+    if (lies.includes(result)) {
+        TheInnerHTML = 'Yay! You were right :)';
+    }else {
+        TheInnerHTML = 'Try again :)';
+    }
+    document.getElementById("game-result").innerText = TheInnerHTML;
 }
