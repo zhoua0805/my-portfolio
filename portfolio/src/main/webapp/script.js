@@ -64,7 +64,7 @@ function playGame() {
     
     lie_index = Math.floor(Math.random() * lies.length);
     twoTruthsOneLie = [truths[truth_1_index], truths[truth_2_index], lies[lie_index]];
-    twoTruthsOneLie.sort() //sort the list so that order is randomized
+    shuffle(twoTruthsOneLie) //randomize the order of the items in the list
     console.log (twoTruthsOneLie);
 
     // Add it to the page.
@@ -72,7 +72,7 @@ function playGame() {
     for (i = 0; i < twoTruthsOneLie.length; i++) {
         TheInnerHTML += "<label> \
                             <input type=\"radio\" name =\"group1\" id =" + i + " value=\""+ twoTruthsOneLie[i] + "\" onchange=\"printGameResult()\"/>\
-                            <span class = \"black-text\">"+ twoTruthsOneLie[i] + "</span>\
+                            <span class = \"white-text\">"+ twoTruthsOneLie[i] + "</span>\
                         </label><br>";
     }
     TheInnerHTML += "</div>";
@@ -100,4 +100,14 @@ function printGameResult() {
         TheInnerHTML = 'Try again :)';
     }
     document.getElementById("game-result").innerText = TheInnerHTML;
+}
+
+// shuffle an array using the Durstenfeld shuffle algorithm 
+function shuffle(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var randomIndex = Math.floor(Math.random() * (i+1));
+        var swap = array[randomIndex];
+        array[randomIndex] = array[i];
+        array[i] = swap;
+    }
 }
