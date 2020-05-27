@@ -12,23 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
-}
-
-
- // generate the project contents when the document is loaded
+ // generate the project contents when the project.html document is loaded
 window.onload = function generateProjectContent() {
       const projects = {
         "Accessible Mouse Design": ["Designed and prototyped a foot mouse with a pedal and a control base",
@@ -58,4 +43,36 @@ window.onload = function generateProjectContent() {
           TheInnerHTML += "</ul>";
     }
     document.getElementById("projectContent").innerHTML = TheInnerHTML;
+}
+
+//play a game of two truths and one lie
+function playGame() {
+    const truths = ['I play the piano.', 
+                    'I don\'t like pineapples on pizza.',
+                    'I have never been skydiving before.', 
+                    'I am hungry.', 
+                    'I visited my friend in Manchester last Christmas.', ]; 
+    const lies = ['My favourite subject in high school was Calculus.',  
+                    'I have two brothers.',
+                    'I was born in the year of the tiger.']; 
+
+
+    // generate two truths and one lie
+    truth_1_index = Math.floor(Math.random() * truths.length);
+    do {
+        truth_2_index = Math.floor(Math.random() * truths.length);
+    }while (truth_1_index === truth_2_index);
+    
+    lie_index = Math.floor(Math.random() * lies.length);
+    twoTruthsOneLie = [truths[truth_1_index], truths[truth_2_index], lies[lie_index]];
+    twoTruthsOneLie.sort() //sort the list so that order is randomized
+    console.log (twoTruthsOneLie);
+
+    // Add it to the page.
+    var TheInnerHTML ="<form action=\"#\">";
+    for (i = 0; i < twoTruthsOneLie.length; i++) {
+        TheInnerHTML += "<label><input type=\"radio\" name =\"group1\" /><span class = \"black-text\">"+ twoTruthsOneLie[i] + "</span></label><br>";
+    }
+    TheInnerHTML += "</form>";
+    document.getElementById("game-container").innerHTML = TheInnerHTML;
 }
