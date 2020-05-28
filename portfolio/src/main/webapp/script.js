@@ -40,7 +40,7 @@ function playGame() {
     for (i = 0; i < twoTruthsOneLie.length; i++) {
         TheInnerHTML += "<label> \
                             <input type=\"radio\" name =\"group1\" id =" + i + " value=\""+ twoTruthsOneLie[i] + "\" onchange=\"printGameResult()\"/>\
-                            <span class = \"white-text\">"+ twoTruthsOneLie[i] + "</span>\
+                            <span class = \"black-text\">"+ twoTruthsOneLie[i] + "</span>\
                         </label><br>";
     }
     TheInnerHTML += "</div>";
