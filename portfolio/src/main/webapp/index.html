@@ -37,14 +37,14 @@
 
         <!-- my background -->
         <div> 
-            <h5>Summary</h5>
+            <h4>Summary</h4>
             <p>My name is Alice Zhou, and I am a Google STEP intern in summer 2020. I study Engineering Science at the University of Toronto. 
                 I like building (and learning about) websites and making robots. Welcome! </p>
         </div>
 
         <!-- my projects -->
         <div>
-            <h5>Projects</h5>
+            <h4>Projects</h4>
             <p> Here is a list of projects that I worked on: </p>
             <ul>
                 <li style="list-style-type:circle">Accessible Mouse Design </li>
@@ -57,14 +57,29 @@
         </div>
 
         <!-- my gallery -->
-        <div class = "gallery-pics">
-            <h5>Gallery </h5>
-            <a href="images/montreal.jpg"><img src="images/montreal.jpg"/></a>
-            <a href="images/montreal2.jpg"><img src="images/montreal2.jpg"/></a>
-            <a href="images/mouse.jpg"><img src="images/mouse.jpg"/></a>
-            <a href="images/civ.jpg"><img src="images/civ.jpg"/></a>
-            <a href="images/esc102Project.png"><img src="images/esc102Project.png"/></a>
-            <a href="images/frontPage.jpg"><img src="images/frontPage.jpg"/></a>
+        <div class = "gallery">
+            <h4>Gallery </h4>
+
+            <div class="carousel">
+                <a class="carousel-item" href="images/montreal.jpg"><img src="images/montreal.jpg"></a>
+                <a class="carousel-item" href="images/montreal2.jpg"><img src="images/montreal2.jpg"></a>
+                <a class="carousel-item" href="images/mouse.jpg"><img src="images/mouse.jpg"></a>
+                <a class="carousel-item" href="images/civ.jpg"><img src="images/civ.jpg"></a>
+                <a class="carousel-item" href="images/frontPage.jpg"><img src="images/frontPage.jpg"></a>
+            </div>
+            <!-- initialize the carousel -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                var elems = document.querySelectorAll('.carousel');
+                var options = {};
+                var instances = M.Carousel.init(elems, options);
+                var instance = M.Carousel.init({
+                    padding: 3,
+                    indicators: true
+                });
+            });
+            </script>
+            <!-- add a video after the carousel -->
             <video width="320" height="240" controls>
                 <source src="/images/mouseVideo.mp4" type=video/mp4>
             </video>
@@ -72,7 +87,7 @@
 
         <!-- contact me -->
         <div>
-            <h5>Contact me</h5>
+            <h4>Contact me</h4>
             <ul>
                 <li><a target="_blank" rel="noopener noreferrer" href="https://github.com/zhoua0805/" >GitHub</a><li>
                 <li><a target="_blank" rel="noopener noreferrer" href="https://linkedin.com/in/alice-x-zhou">Linkedin</a><li>
@@ -82,7 +97,7 @@
 
         <!-- play a game with me -->
         <div>
-            <h5>Play a game with me</h5>
+            <h4>Play a game with me</h4>
             <button class="waves-effect waves-light btn" onclick="playGame()">Shuffle</button>
             <p>Spot the lie below:</p>
             <div id="game-container"></div>
