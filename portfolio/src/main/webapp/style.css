@@ -58,6 +58,23 @@
   align-items: center;
 }
 
+.summary {
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+@media only screen and (min-width: 1024px) {
+    .summary {
+        margin-left: 250px;
+        margin-right: 250px; 
+        margin-top: 80px;
+        margin-bottom: 80px;
+    }
+}
+
+
 /*css for social media icons*/
 .fa {
   padding: 10px;
