@@ -4,6 +4,7 @@
   width: auto;
   color: black;
   text-align: center;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
 
@@ -24,5 +25,21 @@
 .header_container {
     position: relative;
     bottom: 30%;
+}
+
+
+.gallery { 
+  background: linear-gradient(rgba(0,0,0,0.1), rgba(37, 0, 51, 0.15)), url(images/uoft2.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  width:100%;
+  justify-content: center;
+  color: black;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
 }
 
