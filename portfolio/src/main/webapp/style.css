@@ -26,11 +26,3 @@
     bottom: 30%;
 }
 
-.gallery-pics {
-  display: flex;
-  flex-wrap: wrap;
-}
-.gallery-pics img{
-  width: 80%;
-  height: auto;    
-}
