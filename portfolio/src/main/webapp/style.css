@@ -43,3 +43,35 @@
   padding: 20px;
 }
 
+.contactMe { 
+  background-color: rgba(36, 13, 19, 0.8);
+  color: white;
+  padding: 30px;
+}
+
+/*css for social media icons*/
+.fa {
+  padding: 10px;
+  border-radius: 50%;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+}
+.fa:hover {
+    opacity: 0.7;
+}
+.fa-linkedin {
+  background: #007bb5;
+  font-size: 25px !important;
+  color: white;
+}
+.fa-github {
+  font-size: 50px !important;
+  color: white;
+}
+.fa-envelope {
+    font-size: 40px !important;
+    color: rgb(178, 49, 33);
+}
+
