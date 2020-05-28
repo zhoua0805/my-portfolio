@@ -8,6 +8,7 @@
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Allerta+Stencil" />
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -15,21 +16,23 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
+    <!-- Include the jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   </head>
   <body>
     <div id="content">
-        <h1>Alice Zhou</h1>
-        <h5>Welcome to my portfolio :)</h5>
-        &nbsp;
+        
 
         <!-- header -->
-        <div class = "header-pic">
-            <a href = "images/frontPage.jpg"> 
-                <img src = "images/frontPage.jpg" /> 
-            </a>
+        <div class="header">
+            <div class = "header_container" style = "font-family: 'Allerta Stencil'">
+                <h1>Hi, I'm Alice Zhou</h1>
+                <h5>Welcome to my portfolio :)</h5>
+            </div>
         </div>
 
         <!-- my background -->
@@ -76,12 +79,15 @@
                 <li><a target="_blank" rel="noopener noreferrer" href="mailto:alicezhou0805@gmail.com">Gmail</a><li>
             </ul>
         </div>
-        
-        <p>Click here to get a random message:</p>
-        <button class="waves-effect waves-light btn" onclick="addRandomGreeting()">Hello</button>
-        <div id="greeting-container"></div>
 
-
+        <!-- play a game with me -->
+        <div>
+            <h5>Play a game with me</h5>
+            <button class="waves-effect waves-light btn" onclick="playGame()">Shuffle</button>
+            <p>Spot the lie below:</p>
+            <div id="game-container"></div>
+            <h5 id="game-result"></h5>
+        </div>
 
     </div>
   </body>
