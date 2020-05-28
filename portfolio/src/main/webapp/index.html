@@ -24,7 +24,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   </head>
-  <body>
+  <body onload = "playGame()">
     <div id="content">
         
 
@@ -44,16 +44,91 @@
         </div>
 
         <!-- my projects -->
-        <div>
+        <div class = "projects">
             <h4>Projects</h4>
-            <p> Here is a list of projects that I worked on: </p>
-            <ul>
-                <li style="list-style-type:circle">Accessible Mouse Design </li>
-                <li style="list-style-type:circle">PASS Device </li>
-                <li style="list-style-type:circle">ESEC Website </li>
-                <li style="list-style-type:circle">Matboard Construction Bridge Project </li>
-            </ul>
-            <a href="projects.html">Learn more </a>
+            <div class="row">
+                <!-- project 1: acessible mouse design -->
+                <div class="col s12 m6 l3 offset-l3">
+                    <div class= "card">
+                        <div class="card-image waves-effect waves-block waves-light">
+                        <img class="activator" src="images/mouse.jpg">
+                        </div>
+                        <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4">Accessible Mouse Design<i class="material-icons right">more_vert</i></span>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">Accessible Mouse Design<i class="material-icons right">close</i></span>
+                            <ul>
+                                <li style="list-style-type:circle">Designed and prototyped a foot mouse with a pedal and a control base</li>
+                                <li style="list-style-type:circle">Created functional code using processing and java to satisfy all basic mouse functions including clicking, scrolling, and navigation.</li>
+                                <li style="list-style-type:circle">Focused on accessibility and user experience</li>
+                                <li style="list-style-type:circle">Project won first place in the University of Toronto Designathon League</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- project 2: PASS Device -->
+                <div class="col s12 m6 l3">
+                    <div class= "card">
+                        <div class="card-image waves-effect waves-block waves-light">
+                        <img class="activator" src="images/mouse.jpg">
+                        </div>
+                        <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4">PASS Device<i class="material-icons right">more_vert</i></span>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">PASS Device<i class="material-icons right">close</i></span>
+                              <ul>
+                                <li style="list-style-type:circle">Designed an enhancement to the **Personal Alarm Safety System (PASS)** used by Toronto firefighters </li>
+                                <li style="list-style-type:circle">Created a device that prevents false alarms triggered by the existing system with a button embedded in the firefighters' gloves, which signals that they are conscious</li>
+                                <li style="list-style-type:circle">New system envisioned to use infraed signals to communicate between button and device --prototype was built using an Arduino and a motor that when triggered, causes rotatable arm to deactivate PASS alarm</li>
+                                <li style="list-style-type:circle">Conducted research with input from Toronto Fire Department to ensure safety standards were met </li>
+                              </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                 <!-- project 3: ESEC Website -->
+                <div class="col s12 m6 l3 offset-l3 ">
+                    <div class= "card">
+                        <div class="card-image waves-effect waves-block waves-light">
+                        <img class="activator" src="images/mouse.jpg">
+                        </div>
+                        <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4">ESEC Website<i class="material-icons right">more_vert</i></span>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">ESEC Website<i class="material-icons right">close</i></span>
+                           <ul>
+                                <li style="list-style-type:circle">Created and maintained a multi-page website for the Engineering Science Education Conference using WordPress and custom html/css </li>
+                                <li style="list-style-type:circle">Analyzed previous legacy code and utilized it as boilerplate infrastructure while updating source-code as required</li>
+                                <li style="list-style-type:circle">Applied concepts of responsive web design in order to make page accessible and user-freindly across all devices</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- project 4: Matboard Construction Bridge -->
+                <div class="col s12 m6 l3">
+                    <div class= "card">
+                        <div class="card-image waves-effect waves-block waves-light">
+                        <img class="activator" src="images/civ.jpg">
+                        </div>
+                        <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4">Matboard Construction Bridge<i class="material-icons right">more_vert</i></span>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">Matboard Construction Bridge<i class="material-icons right">close</i></span>
+                             <ul>
+                                <li style="list-style-type:circle">Constructed a ~1.5m long bridge using matboard only</li>
+                                <li style="list-style-type:circle">Applied knowledge of stress, shear, and buckling to optimize bridge load</li>
+                                <li style="list-style-type:circle">Acheived max load of 800N before failure</li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
 

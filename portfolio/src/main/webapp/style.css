@@ -49,6 +49,15 @@
   padding: 30px;
 }
 
+.projects { 
+  border: 3px solid;
+  border-radius: 5%;
+  border-color: rgba(36, 13, 19, 0.8);
+  padding: 30px;
+  margin: 15px;
+  align-items: center;
+}
+
 /*css for social media icons*/
 .fa {
   padding: 10px;
