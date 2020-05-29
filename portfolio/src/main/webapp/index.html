@@ -5,6 +5,7 @@
     <title>Alice's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <script src="keys.js"></script>
 
     <!--Import fonts and icons-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -25,11 +26,40 @@
 
   </head>
   <body onload = "playGame()">    
-    <div id="content">                 
+    <div id="content"> 
+        <div class="navbar-fixed">                  
+        <nav>   
+            <div class="nav-wrapper" >  
+      	        <a href="#header" class="brand-logo right">Alice</a>
+      	        <a href="#" data-target="mobile-demo" class="sidenav-trigger left"><i class="material-icons">menu</i></a>
+      	        <ul class="left hide-on-med-and-down">
+                    <li><a href="#summary">About me</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#game">A Fun Quiz</a></li> 
+                    <li><a href="#locatiosns">My Locations</a></li>
+                    <li><a href="#contacts">Contact Me</a></li>
+                </ul>
+            </div>
+  	    </nav>
+        </div>
+
+  	    <ul class="sidenav" id="mobile-demo">
+    	  	<li><a href="#summary">About me</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#game">A Fun Quiz</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contacts">Contact Me</a></li>
+        </ul>     
+  	    <script>
+      	    document.addEventListener('DOMContentLoaded', function() {
+                var elems = document.querySelectorAll('.sidenav');
+                options = {};
+                var instances = M.Sidenav.init(elems, options);
+            });
+  	    </script>       
             
-  
         <!-- header -->
-        <div class="header">
+        <div class="header" id = "header">
             <div class = "header_container" style = "font-family: 'Allerta Stencil'">
                 <h1>Hi, I'm Alice Zhou</h1>
                 <h5>Welcome to my portfolio :)</h5>
@@ -49,7 +79,7 @@
         </div>
 
         <!-- my projects -->
-        <div class = "projects">
+        <div class = "projects" id ="projects">
             <h4>--- Projects ---</h4>
             <div class="row">
                 <!-- project 1: ESEC Website -->
@@ -99,39 +129,41 @@
 
         </div>
 
-        <!-- my gallery -->
-        <div class = "gallery">
-            <h4>--- Gallery ---</h4>
-
-            <div class="carousel">
-                <a class="carousel-item" href="images/montreal.jpg"><img src="images/montreal.jpg"></a>
-                <a class="carousel-item" href="images/montreal2.jpg"><img src="images/montreal2.jpg"></a>
-                <a class="carousel-item" href="images/mouse.jpg"><img src="images/mouse.jpg"></a>
-                <a class="carousel-item" href="images/civ.jpg"><img src="images/civ.jpg"></a>
-                <a class="carousel-item" href="images/frontPage.jpg"><img src="images/frontPage.jpg"></a>
-            </div>
-            <!-- initialize the carousel -->
+        <!-- my locations -->
+        <div class = "locations" id = "locations">
+            <h4>--- My Locations ---</h4>
+            <div id="map"></div>
             <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                var elems = document.querySelectorAll('.carousel');
-                var options = {};
-                var instances = M.Carousel.init(elems, options);
-                var instance = M.Carousel.init({
-                    padding: 3,
-                    indicators: true
+            function initMap() {
+                var coordin_wat = {lat: 43.4643, lng: -80.5204};
+                var coordin_tor = {lat:43.6532, lng: -79.3832};
+                var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: coordin_wat
                 });
-            });
+
+                var marker_wat = new google.maps.Marker({
+                position: coordin_wat,
+                map: map,
+                title: 'I\'m here'
+                });
+                var marker_tor = new google.maps.Marker({
+                position: coordin_tor,
+                map: map,
+                title: 'I\'m here'
+                });
+            }
             </script>
-            <!-- add a video after the carousel -->
-            <video width="320" height="240" controls>
-                <source src="/images/mouseVideo.mp4" type=video/mp4>
-            </video>
+            <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8qc6oxpo1PCtN8QouYOZlOhKu6748yx4&callback=initMap">
+            </script>
+            
         </div>
 
 
         <!-- play a game with me -->
-        <div>
-            <h4>--- A Fun Game ---</h4>
+        <div id ="game">
+            <h4>--- A Fun Quiz---</h4>
             <button class="waves-effect waves-light btn" onclick="playGame()">Shuffle</button>
             <p>Spot the lie below:</p>
             <div id="game-container"></div>
@@ -139,7 +171,7 @@
         </div>
 
           <!-- contact me -->
-        <div class="contactMe">
+        <div class="contactMe" id="contacts">
             <h4>Contact me</h4>
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/zhoua0805/"class="fa fa-linkedin"> </a> Linkedin
             <a target="_blank" rel="noopener noreferrer" href="https://linkedin.com/in/alice-x-zhou" class="fa fa-github"></a> GitHub
