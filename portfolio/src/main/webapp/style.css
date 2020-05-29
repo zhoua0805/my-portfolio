@@ -7,7 +7,7 @@
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 h1,h2,h3,h4,h5,h6{
-    color:#AE5654;
+    color:#F1BE7D;
 }
 
 
@@ -22,7 +22,6 @@ h1,h2,h3,h4,h5,h6{
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #F0DEBA;
 }
 
 .header_container {
@@ -47,15 +46,12 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .contactMe { 
-  background-color: rgba(36, 13, 19, 0.8);
-  color: white;
+  background-color: #410219;
+  color: #F0DEBA;
   padding: 30px;
 }
 
 .projects { 
-  border: 3px solid;
-  border-radius: 5%;
-  border-color: rgba(36, 13, 19, 0.8);
   padding: 30px;
   margin: 15px;
   align-items: center;
@@ -97,4 +93,3 @@ h1,h2,h3,h4,h5,h6{
     font-size: 40px !important;
     color: rgb(178, 49, 33);
 }
-
