@@ -2,9 +2,12 @@
   margin-left: auto;
   margin-right: auto;
   width: auto;
-  color: black;
+  color: #410219;
   text-align: center;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+h1,h2,h3,h4,h5,h6{
+    color:#AE5654;
 }
 
 
@@ -19,7 +22,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #F0DEBA;
 }
 
 .header_container {
@@ -57,6 +60,17 @@
   margin: 15px;
   align-items: center;
 }
+
+.project-item {
+    padding: 20px;
+    margin: 15px;
+    background: url(images/projectbg.jpg) center no-repeat;
+    background-size: 350px;
+    height: 330px;
+    border: 1px;
+    border-style: hidden hidden solid hidden;
+}
+
 
 /*css for social media icons*/
 .fa {
