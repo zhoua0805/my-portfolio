@@ -12,7 +12,7 @@ h1,h2,h3,h4,h5,h6{
 
 
 .header { 
-  background: linear-gradient(rgba(0,0,0,0.25), rgba(37, 0, 51, 0.24)), url(images/frontPage.jpg) no-repeat center center fixed; 
+  background: linear-gradient(rgba(0,0,0,0.25), rgba(37, 0, 51, 0.24)), url(images/frontPage2.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -24,11 +24,19 @@ h1,h2,h3,h4,h5,h6{
   justify-content: center;
 }
 
-.header_container {
+.header_container{
     position: relative;
     bottom: 30%;
+    margin-left: 100%;
+    overflow: hidden;
+    animation: movein 1s ease-in forwards;
 }
 
+
+@keyframes movein {
+    from { margin-left: 100%;}
+    to {  margin-left: 0%;}
+}
 
 .gallery { 
   background: linear-gradient(rgba(0,0,0,0.1), rgba(37, 0, 51, 0.15)), url(images/uoft2.png) no-repeat center center fixed; 
