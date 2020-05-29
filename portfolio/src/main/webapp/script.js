@@ -41,6 +41,7 @@ function playGame() {
         TheInnerHTML += "<label> \
                             <input type=\"radio\" name =\"group1\" id =" + i + " value=\""+ twoTruthsOneLie[i] + "\" onchange=\"printGameResult()\"/>\
                             <span style = \"color: #410219\">"+ twoTruthsOneLie[i] + "</span>\
+
                         </label><br>";
     }
     TheInnerHTML += "</div>";
