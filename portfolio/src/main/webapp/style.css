@@ -2,14 +2,17 @@
   margin-left: auto;
   margin-right: auto;
   width: auto;
-  color: black;
+  color: #410219;
   text-align: center;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+h1,h2,h3,h4,h5,h6{
+    color:#F1BE7D;
 }
 
 
 .header { 
-  background: linear-gradient(rgba(0,0,0,0.25), rgba(37, 0, 51, 0.24)), url(images/frontPage.jpg) no-repeat center center fixed; 
+  background: linear-gradient(rgba(0,0,0,0.25), rgba(37, 0, 51, 0.24)), url(images/frontPage2.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -19,14 +22,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
 }
 
-.header_container {
+.header_container{
     position: relative;
     bottom: 30%;
+    margin-left: 100%;
+    overflow: hidden;
+    animation: movein 1s ease-in forwards;
 }
 
+
+@keyframes movein {
+    from { margin-left: 100%;}
+    to {  margin-left: 0%;}
+}
 
 .gallery { 
   background: linear-gradient(rgba(0,0,0,0.1), rgba(37, 0, 51, 0.15)), url(images/uoft2.png) no-repeat center center fixed; 
@@ -44,19 +54,17 @@
 }
 
 .contactMe { 
-  background-color: rgba(36, 13, 19, 0.8);
-  color: white;
+  background-color: #410219;
+  color: #F0DEBA;
   padding: 30px;
 }
 
 .projects { 
-  border: 3px solid;
-  border-radius: 5%;
-  border-color: rgba(36, 13, 19, 0.8);
   padding: 30px;
   margin: 15px;
   align-items: center;
 }
+
 
 .summary {
     margin-left: 30px;
@@ -72,6 +80,16 @@
         margin-top: 80px;
         margin-bottom: 80px;
     }
+}
+
+.project-item {
+    padding: 20px;
+    margin: 15px;
+    background: url(images/projectbg.jpg) center no-repeat;
+    background-size: 350px;
+    height: 330px;
+    border: 1px;
+    border-style: hidden hidden solid hidden;
 }
 
 
@@ -100,4 +118,3 @@
     font-size: 40px !important;
     color: rgb(178, 49, 33);
 }
-
