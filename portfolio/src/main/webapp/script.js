@@ -67,6 +67,7 @@ const lies = ['My favourite subject in high school was Calculus.',
                 'I have two brothers.',
                 'I was born in the year of the tiger.']; 
 
+
 function printGameResult() {
     //get selected item
     var result = '';
