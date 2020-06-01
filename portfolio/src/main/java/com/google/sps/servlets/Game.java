@@ -13,6 +13,7 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -58,17 +59,11 @@ public class DataServlet extends HttpServlet {
         twoTruthsOneLie[1] = truths[truth_2_index];
         twoTruthsOneLie[2] = lies[lie_index];
         shuffle(twoTruthsOneLie); //randomize the order of the items in the list   
-        TheInnerHTML ="<div>";
-        for (int i = 0; i < twoTruthsOneLie.length; i++) {
-            TheInnerHTML += "<label>" +
-                                "<input type=\"radio\" name =\"group1\" id =" + String.valueOf(i) + 
-                                " value=\""+ twoTruthsOneLie[i] + "\" onchange=\"printGameResult()\"/>" +
-                                "<span style = \"color: #410219\">"+ twoTruthsOneLie[i] + "</span>" +
-                            "</label><br>";
-        }
-        TheInnerHTML += "</div>";
-		response.setContentType("text/html;");
-        response.getWriter().println(TheInnerHTML);
+
+        String json = convertToJsonUsingGson(twoTruthsOneLie);
+
+        response.setContentType("application/json;");
+        response.getWriter().println(json);
   }
 
   // shuffle an array using the Durstenfeld shuffle algorithm 
@@ -82,5 +77,12 @@ public class DataServlet extends HttpServlet {
             array[i] = swap;
         }
     }
+
+    //using Gson to convert to Json
+    private String convertToJsonUsingGson(String[] array) {
+        Gson gson = new Gson();
+        String json = gson.toJson(array);
+        return json;
+  }
 }
 

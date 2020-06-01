@@ -15,10 +15,47 @@
 
 //fecth two truths and one lie from the server
 function getFacts() {
-  fetch('/two-truths-one-lie').then(response => response.text()).then((TheInnerHTML) => {
-    document.getElementById('game-container').innerHTML = TheInnerHTML;
-    document.getElementById("game-result").innerText = ''
+    fetch('/two-truths-one-lie').then(response => response.json()).then((facts) => {
+        console.log(facts);
+        const divElement = document.createElement('div');
+        const brElement = document.createElement('br');
+
+        const gameContainer = document.getElementById('game-container');
+        gameContainer.innerHTML = '';
+        divElement.appendChild(
+            createLabelElement(facts[0], "0"));
+        divElement.appendChild(document.createElement('br'));
+        divElement.appendChild(
+            createLabelElement(facts[1], "1"));
+        divElement.appendChild(document.createElement('br'));
+        divElement.appendChild(
+            createLabelElement(facts[2], "2"));
+        divElement.appendChild(document.createElement('br'));
+
+        gameContainer.appendChild(divElement);
+
+        document.getElementById("game-result").innerText = '';
   });
+}
+
+
+function createLabelElement(text, id) {
+    const labelElement = document.createElement('label');
+
+    const inputElement = document.createElement('input');
+    inputElement.setAttribute("type", "radio");
+    inputElement.setAttribute("name", "group1");
+    inputElement.setAttribute("value", text);
+    inputElement.setAttribute("id", id);
+    inputElement.setAttribute("onchange", "printGameResult()");
+
+    const spanElement = document.createElement('span');
+    spanElement.innerText= text;
+    spanElement.setAttribute("style", "color: #410219");
+
+    labelElement.appendChild(inputElement);
+    labelElement.appendChild(spanElement);
+    return labelElement;
 }
 
 const truths = ['I play the piano.', 
