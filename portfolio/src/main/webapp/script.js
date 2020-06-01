@@ -13,7 +13,14 @@
 // limitations under the License.
 
 
-//play a game of two truths and one lie
+//fecth two truths and one lie from the server
+function getFacts() {
+  fetch('/two-truths-one-lie').then(response => response.text()).then((TheInnerHTML) => {
+    document.getElementById('game-container').innerHTML = TheInnerHTML;
+    document.getElementById("game-result").innerText = ''
+  });
+}
+
 const truths = ['I play the piano.', 
                     'I don\'t like pineapples on pizza.',
                     'I have never been skydiving before.', 
@@ -22,31 +29,6 @@ const truths = ['I play the piano.',
 const lies = ['My favourite subject in high school was Calculus.',  
                 'I have two brothers.',
                 'I was born in the year of the tiger.']; 
-
-function playGame() {
-    // generate two truths and one lie
-    truth_1_index = Math.floor(Math.random() * truths.length);
-    do {
-        truth_2_index = Math.floor(Math.random() * truths.length);
-    }while (truth_1_index === truth_2_index);
-    
-    lie_index = Math.floor(Math.random() * lies.length);
-    twoTruthsOneLie = [truths[truth_1_index], truths[truth_2_index], lies[lie_index]];
-    shuffle(twoTruthsOneLie) //randomize the order of the items in the list
-    console.log (twoTruthsOneLie);
-
-    // Add it to the page.
-    var TheInnerHTML ="<div>";
-    for (i = 0; i < twoTruthsOneLie.length; i++) {
-        TheInnerHTML += "<label> \
-                            <input type=\"radio\" name =\"group1\" id =" + i + " value=\""+ twoTruthsOneLie[i] + "\" onchange=\"printGameResult()\"/>\
-                            <span style = \"color: #410219\">"+ twoTruthsOneLie[i] + "</span>\
-                        </label><br>";
-    }
-    TheInnerHTML += "</div>";
-    document.getElementById("game-container").innerHTML = TheInnerHTML;
-    document.getElementById("game-result").innerText = '';
-}
 
 function printGameResult() {
     //get selected item
@@ -68,14 +50,4 @@ function printGameResult() {
         TheInnerHTML = 'Try again :)';
     }
     document.getElementById("game-result").innerText = TheInnerHTML;
-}
-
-// shuffle an array using the Durstenfeld shuffle algorithm 
-function shuffle(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var randomIndex = Math.floor(Math.random() * (i+1));
-        var swap = array[randomIndex];
-        array[randomIndex] = array[i];
-        array[i] = swap;
-    }
 }
