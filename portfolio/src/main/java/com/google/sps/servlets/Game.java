@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 //play a game of two truths and one lie
 @WebServlet("/two-truths-one-lie")
-public class DataServlet extends HttpServlet {
+public class Game extends HttpServlet {
 
     private String[] truths = new String[] {"I play the piano.", 
                     "I don\'t like pineapples on pizza.",
