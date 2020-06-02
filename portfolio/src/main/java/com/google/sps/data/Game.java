@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,13 +21,13 @@ import java.lang.*;
 
 //Class representing the two truths and one lie game.
 public class Game {
-    private String[] truths = new String[] {"I play the piano.", 
+    static final String[] TRUTHS = new String[] {"I play the piano.", 
                     "I don\'t like pineapples on pizza.",
                     "I have never been skydiving before.", 
                     "I am hungry.", 
                     "I visited my friend in Manchester last Christmas."};
 
-    private String[] lies = new String[] {"My favourite subject in high school was Calculus.",  
+    static final String[] LIES = new String[] {"My favourite subject in high school was Calculus.",  
                 "I have two brothers.",
                 "I was born in the year of the tiger."};
 
@@ -39,7 +39,7 @@ public class Game {
     }
 
     public String[] getLies(){
-        return lies;
+        return LIES;
     }
     public String getResult(){
         return result;
@@ -51,15 +51,15 @@ public class Game {
         int truth_2_index;
         int lie_index;
 
-        truth_1_index = (int) (Math.random() * truths.length);
+        truth_1_index = (int) (Math.random() * TRUTHS.length);
         do {
-            truth_2_index = (int)(Math.random() * truths.length);
+            truth_2_index = (int)(Math.random() * TRUTHS.length);
         }while (truth_1_index == truth_2_index);
         
-        lie_index = (int)(Math.random() * lies.length);
-        twoTruthsOneLie[0] = truths[truth_1_index];
-        twoTruthsOneLie[1] = truths[truth_2_index];
-        twoTruthsOneLie[2] = lies[lie_index];
+        lie_index = (int)(Math.random() * LIES.length);
+        twoTruthsOneLie[0] = TRUTHS[truth_1_index];
+        twoTruthsOneLie[1] = TRUTHS[truth_2_index];
+        twoTruthsOneLie[2] = LIES[lie_index];
         shuffle(twoTruthsOneLie); //randomize the order of the items in the list
     }
 

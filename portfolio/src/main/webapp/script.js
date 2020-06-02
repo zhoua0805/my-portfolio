@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,8 @@ function getFacts() {
             createLabelElement(facts[2], "2"));
         formElement.appendChild(document.createElement('br'));
         formElement.appendChild(document.createElement('br'));
-        formElement.innerHTML += "<button class=\"btn waves-effect waves-light\" type=\"submit\" name=\"action\">Submit </button>"
+        formElement.innerHTML += "<button class=\"btn waves-effect waves-light\" \
+            type=\"submit\" name=\"action\">Submit </button>";
         
         gameContainer.appendChild(formElement);
         document.getElementById("game-result").innerText = game.result;
@@ -48,7 +49,7 @@ function createLabelElement(text, id) {
 
     const inputElement = document.createElement('input');
     inputElement.setAttribute("type", "radio");
-    inputElement.setAttribute("name", "group1");
+    inputElement.setAttribute("name", "fact");
     inputElement.setAttribute("value", text);
     inputElement.setAttribute("id", id);
 
