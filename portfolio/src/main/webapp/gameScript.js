@@ -49,7 +49,7 @@ function createLabelElement(text, id) {
 
     const inputElement = document.createElement('input');
     inputElement.setAttribute("type", "radio");
-    inputElement.setAttribute("name", "group1");
+    inputElement.setAttribute("name", "fact");
     inputElement.setAttribute("value", text);
     inputElement.setAttribute("id", id);
 
