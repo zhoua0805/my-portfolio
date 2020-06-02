@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that handles the game two truths and one lie */
 
 @WebServlet("/two-truths-one-lie")
 public class GameServlet extends HttpServlet {

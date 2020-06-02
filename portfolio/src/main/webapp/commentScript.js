@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-//fecth two truths and one lie from the server
+//fecth comments from the server
 function getComments() {
     fetch('/comments').then(response => response.json()).then((comments) => {
         const commentsContainer = document.getElementById("comments");
