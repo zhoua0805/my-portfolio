@@ -21,7 +21,7 @@ function getFacts() {
         const formElement = document.createElement('form');
         formElement.setAttribute("action", "/two-truths-one-lie");
         formElement.setAttribute("method", "POST");
-
+      
         const gameContainer = document.getElementById('game-container');
         gameContainer.innerHTML = '';
         formElement.appendChild(
@@ -34,14 +34,14 @@ function getFacts() {
             createLabelElement(facts[2], "2"));
         formElement.appendChild(document.createElement('br'));
         formElement.appendChild(document.createElement('br'));
-        formElement.innerHTML += "<button class=\"btn waves-effect waves-light\"  \
+        formElement.innerHTML += "<button class=\"btn waves-effect waves-light\" \
             type=\"submit\" name=\"action\">Submit </button>";
         
         gameContainer.appendChild(formElement);
-        document.getElementById("game-result").innerText = game.result;
-        
+        document.getElementById("game-result").innerText = game.result;    
   });
 }
+
 
 
 function createLabelElement(text, id) {
