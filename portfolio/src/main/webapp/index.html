@@ -33,9 +33,9 @@
       	        <a href="#" data-target="mobile-demo" class="sidenav-trigger left"><i class="material-icons">menu</i></a>
       	        <ul class="left hide-on-med-and-down">
                     <li><a href="#summary">About me</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#game">A Fun Quiz</a></li> 
+                    <li><a href="#projects">Projects</a></li>       
                     <li><a href="#locations">My Locations</a></li>
+                    <li><a href="#game">A Fun Quiz</a></li> 
                     <li><a href="#contacts">Contact Me</a></li>
                 </ul>
             </div>
@@ -45,8 +45,8 @@
   	    <ul class="sidenav" id="mobile-demo">
     	  	<li><a href="#summary">About me</a></li>
             <li><a href="#projects">Projects</a></li>
+            <li><a href="#locations">My Locations</a></li>
             <li><a href="#game">A Fun Quiz</a></li>
-            <li><a href="#gallery">My Locations</a></li>
             <li><a href="#contacts">Contact Me</a></li>
         </ul>     
   	    <script>
@@ -63,22 +63,22 @@
                 <h1>Hi, I'm Alice Zhou</h1>
                 <h5>Welcome to my portfolio :)</h5>
             </div> 
-            <div class= "arrow" >  
+            <div class= "arrow" id="summary">  
             <a href= "#summary" ><i class="fa fa-angle-double-down"> </i> </a>
             </div>
         </div> 
  
         <!-- my background -->
-        <div class = "summary" id = "summary">  
+        <div class = "summary" >  
             <h4>--- About Me ---</h4>
             <p>My name is Alice Zhou, and I am a Google STEP intern in summer 2020. I study Engineering Science at the University of Toronto. 
                 I like building (and learning about) websites and making robots. Outside of work and study, I like to read, play music, and watch kdramas. </p>
             <p>Some tools and languages that I am familiar with are Python, C, React, WordPress, HTML/CSS, and MATLAB. </p>
-            <p>Welcome!</p>
+            <p id = "projects">Welcome!</p>
         </div>
 
         <!-- my projects -->
-        <div class = "projects" id ="projects">
+        <div class = "projects">
             <h4>--- Projects ---</h4>
             <div class="row">
                 <!-- project 1: ESEC Website -->
@@ -121,7 +121,7 @@
                             <li style="list-style-type:circle">Constructed a ~1.5m long bridge using matboard only</li>
                             <li style="list-style-type:circle">Applied knowledge of stress, shear, and buckling to optimize bridge load</li>
                             <li style="list-style-type:circle">Design metrics include stress performance, wind load performance, material selection, and aesthetics. </li>
-                            <li style="list-style-type:circle">Acheived max load of 800N before failure</li>
+                            <li style="list-style-type:circle"  id="locations">Acheived max load of 800N before failure</li>
                         </ul>
                 </div>
             </div>
@@ -129,7 +129,7 @@
         </div>
 
         <!-- my locations -->
-        <div class = "locations" id = "locations">
+        <div class = "locations">
             <h4>--- My Locations ---</h4>  
             <div id="map"></div>
             <script>
