@@ -5,6 +5,7 @@
     <title>Alice's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <script src="keys.js"></script>
 
     <!--Import fonts and icons-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -17,38 +18,72 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-    <!-- Include the jQuery library -->
+    <!-- Include the jQuery library -->   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <!--Let browser know website is optimized for mobile-->
+    <!--Let browser know website is optimized for mobile-->    
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   </head>
-  <body onload = "playGame()">
-    <div id="content">
-        
+  <body onload = "playGame()">    
+    <div id="content">                
+        <div class="navbar-fixed">                  
+        <nav>   
+            <div class="nav-wrapper" >  
+      	        <a href="#header" class="brand-logo right">Alice</a>
+      	        <a href="#" data-target="mobile-demo" class="sidenav-trigger left"><i class="material-icons">menu</i></a>
+      	        <ul class="left hide-on-med-and-down">
+                    <li><a href="#summary">About me</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#game">A Fun Quiz</a></li> 
+                    <li><a href="#locations">My Locations</a></li>
+                    <li><a href="#contacts">Contact Me</a></li>
+                </ul>
+            </div>
+  	    </nav>
+        </div>
 
+  	    <ul class="sidenav" id="mobile-demo">
+    	  	<li><a href="#summary">About me</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#game">A Fun Quiz</a></li>
+            <li><a href="#gallery">My Locations</a></li>
+            <li><a href="#contacts">Contact Me</a></li>
+        </ul>     
+  	    <script>
+      	    document.addEventListener('DOMContentLoaded', function() {
+                var elems = document.querySelectorAll('.sidenav');
+                options = {};
+                var instances = M.Sidenav.init(elems, options);
+            });
+  	    </script>       
+            
         <!-- header -->
-        <div class="header">
+        <div class="header" id = "header">
             <div class = "header_container" style = "font-family: 'Allerta Stencil'">
                 <h1>Hi, I'm Alice Zhou</h1>
                 <h5>Welcome to my portfolio :)</h5>
+            </div> 
+            <div class= "arrow" >  
+            <a href= "#summary" ><i class="fa fa-angle-double-down"> </i> </a>
             </div>
-        </div>
-
+        </div> 
+ 
         <!-- my background -->
-        <div> 
-            <h4>Summary</h4>
+        <div class = "summary" id = "summary">  
+            <h4>--- About Me ---</h4>
             <p>My name is Alice Zhou, and I am a Google STEP intern in summer 2020. I study Engineering Science at the University of Toronto. 
-                I like building (and learning about) websites and making robots. Welcome! </p>
+                I like building (and learning about) websites and making robots. Outside of work and study, I like to read, play music, and watch kdramas. </p>
+            <p>Some tools and languages that I am familiar with are Python, C, React, WordPress, HTML/CSS, and MATLAB. </p>
+            <p>Welcome!</p>
         </div>
 
         <!-- my projects -->
-        <div class = "projects">
-            <h4>Projects</h4>
+        <div class = "projects" id ="projects">
+            <h4>--- Projects ---</h4>
             <div class="row">
                 <!-- project 1: ESEC Website -->
-                <div class="col s12 m6 l3 offset-l2 project-item">
+                <div class="col s12 m6 l3 offset-l2 offset-m3 project-item">
                     <h5>ESEC Website</h5>
                     <ul>
                         <li style="list-style-type:circle">Created and maintained a multi-page website for the Engineering Science Education Conference using WordPress and custom html/css </li>
@@ -57,7 +92,7 @@
                     </ul>
                 </div>
                 <!-- project 2: PASS Device -->
-                <div class="col s12 m6 l3 offset-l2 project-item">
+                <div class="col s12 m6 l3 offset-l2 offset-m3 project-item">
                     <h5>PASS Device</h5>
                     <ul>
                         <li style="list-style-type:circle">Designed an enhancement to the **Personal Alarm Safety System (PASS)** used by Toronto firefighters </li>
@@ -69,7 +104,7 @@
 
             <div class="row">
                 <!-- project 3: acessible mouse design -->
-                <div class="col s12 m6 l3 offset-l2 project-item">
+                <div class="col s12 m6 l3 offset-l2 offset-m3 project-item">
                     <div>
                         <h5>Accessible Mouse Design</h5>
                         <ul>
@@ -81,7 +116,7 @@
                     </div>
                 </div>
                 <!-- project 4: Matboard Construction Bridge -->
-                <div class="col s12 m6 l3 offset-l2 project-item">
+                <div class="col s12 m6 l3 offset-l2 offset-m3 project-item">
                     <h5 >Matboard Construction Bridge</h5>
                         <ul>
                             <li style="list-style-type:circle">Constructed a ~1.5m long bridge using matboard only</li>
@@ -94,39 +129,41 @@
 
         </div>
 
-        <!-- my gallery -->
-        <div class = "gallery">
-            <h4>Gallery </h4>
-
-            <div class="carousel">
-                <a class="carousel-item" href="images/montreal.jpg"><img src="images/montreal.jpg"></a>
-                <a class="carousel-item" href="images/montreal2.jpg"><img src="images/montreal2.jpg"></a>
-                <a class="carousel-item" href="images/mouse.jpg"><img src="images/mouse.jpg"></a>
-                <a class="carousel-item" href="images/civ.jpg"><img src="images/civ.jpg"></a>
-                <a class="carousel-item" href="images/frontPage.jpg"><img src="images/frontPage.jpg"></a>
-            </div>
-            <!-- initialize the carousel -->
+        <!-- my locations -->
+        <div class = "locations" id = "locations">
+            <h4>--- My Locations ---</h4>  
+            <div id="map"></div>
             <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                var elems = document.querySelectorAll('.carousel');
-                var options = {};
-                var instances = M.Carousel.init(elems, options);
-                var instance = M.Carousel.init({
-                    padding: 3,
-                    indicators: true
+            function initMap() {
+                var coordin_wat = {lat: 43.4643, lng: -80.5204};
+                var coordin_tor = {lat:43.6532, lng: -79.3832};
+                var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: coordin_wat
                 });
-            });
+
+                var marker_wat = new google.maps.Marker({
+                position: coordin_wat,
+                map: map,
+                title: 'I\'m here'
+                });
+                var marker_tor = new google.maps.Marker({
+                position: coordin_tor,
+                map: map,
+                title: 'I\'m here'
+                });
+            }
             </script>
-            <!-- add a video after the carousel -->
-            <video width="320" height="240" controls>
-                <source src="/images/mouseVideo.mp4" type=video/mp4>
-            </video>
+            <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8qc6oxpo1PCtN8QouYOZlOhKu6748yx4&callback=initMap">
+            </script>
+            
         </div>
 
 
         <!-- play a game with me -->
-        <div>
-            <h4>Play a game with me</h4>
+        <div id ="game">
+            <h4>--- A Fun Quiz---</h4>
             <button class="waves-effect waves-light btn" onclick="playGame()">Shuffle</button>
             <p>Spot the lie below:</p>
             <div id="game-container"></div>
@@ -134,7 +171,7 @@
         </div>
 
           <!-- contact me -->
-        <div class="contactMe">
+        <div class="contactMe" id="contacts">
             <h4>Contact me</h4>
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/zhoua0805/"class="fa fa-linkedin"> </a> Linkedin
             <a target="_blank" rel="noopener noreferrer" href="https://linkedin.com/in/alice-x-zhou" class="fa fa-github"></a> GitHub
