@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/comments")
 public class CommentsServlet extends HttpServlet {
-    private final List<String> comments = new ArrayList<>();
+    private final List<String[]> comments = new ArrayList<>();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -40,9 +40,10 @@ public class CommentsServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            String name = request.getParameter("fullname");
-            String comment = request.getParameter("comment");
-            comments.add("name: "+name+ "      comment: "+ comment);
+            String[] comment = new String[2];
+            comment[0] = "name: " + request.getParameter("fullname");
+            comment[1] = "comment: " + request.getParameter("comment");
+            comments.add(comment);
             response.sendRedirect("/index.html#game");
     }
 }

@@ -29,7 +29,7 @@ function getComments() {
 //Creates an <li> element containing text.
 function createListElement(comment) {
   const liElement = document.createElement('li');
-  liElement.innerText = comment;
+  liElement.innerHTML = comment[0] + "<br>" + comment[1];
   return liElement;
 }
 
