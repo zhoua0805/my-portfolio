@@ -18,6 +18,7 @@ function getComments() {
     fetch('/comments').then(response => response.json()).then((comments) => {
         const commentsContainer = document.getElementById("comments");
         console.log(comments);
+        commentsContainer.innerHTML = '';
         comments.forEach((comment) => {
             commentsContainer.appendChild(createListElement(comment));
         });
@@ -29,7 +30,7 @@ function getComments() {
 //Creates an <li> element containing text.
 function createListElement(comment) {
   const liElement = document.createElement('li');
-  liElement.innerHTML = comment[0] + "<br>" + comment[1];
+  liElement.innerHTML = comment.name + "<br>" + comment.content;
   return liElement;
 }
 
