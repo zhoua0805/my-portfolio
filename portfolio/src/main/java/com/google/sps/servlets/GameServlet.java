@@ -34,7 +34,7 @@ public class GameServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        game.generateFacts(); //facts received from server
+        game.generateFacts(); 
         String json = new Gson().toJson(game);
         response.setContentType("application/json;");
         response.getWriter().println(json);
