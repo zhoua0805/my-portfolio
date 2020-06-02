@@ -34,7 +34,7 @@ public class GameServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        game.generateFacts();
+        game.generateFacts(); 
         String json = new Gson().toJson(game);
         response.setContentType("application/json;");
         response.getWriter().println(json);
@@ -42,7 +42,7 @@ public class GameServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String selected = request.getParameter("group1");
+        String selected = request.getParameter("fact");
         if (selected == null) {
             game.gameInvalid();
         }else if (Arrays.asList(game.getLies()).contains(selected)) {
