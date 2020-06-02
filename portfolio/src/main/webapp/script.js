@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,70 +13,51 @@
 // limitations under the License.
 
 
-//play a game of two truths and one lie
-const truths = ['I play the piano.', 
-                    'I don\'t like pineapples on pizza.',
-                    'I have never been skydiving before.', 
-                    'I am hungry.', 
-                    'I visited my friend in Manchester last Christmas.', ]; 
-const lies = ['My favourite subject in high school was Calculus.',  
-                'I have two brothers.',
-                'I was born in the year of the tiger.']; 
+//fecth two truths and one lie from the server
+function getFacts() {
+    fetch('/two-truths-one-lie').then(response => response.json()).then((game) => {
+        facts = game.twoTruthsOneLie;
+        console.log(facts);
+        const formElement = document.createElement('form');
+        formElement.setAttribute("action", "/two-truths-one-lie");
+        formElement.setAttribute("method", "POST");
+      
+        const gameContainer = document.getElementById('game-container');
+        gameContainer.innerHTML = '';
+        formElement.appendChild(
+            createLabelElement(facts[0], "0"));
+        formElement.appendChild(document.createElement('br'));
+        formElement.appendChild(
+            createLabelElement(facts[1], "1"));
+        formElement.appendChild(document.createElement('br'));
+        formElement.appendChild(
+            createLabelElement(facts[2], "2"));
+        formElement.appendChild(document.createElement('br'));
+        formElement.appendChild(document.createElement('br'));
+        formElement.innerHTML += "<button class=\"btn waves-effect waves-light\" \
+            type=\"submit\" name=\"action\">Submit </button>";
+        
+        gameContainer.appendChild(formElement);
+        document.getElementById("game-result").innerText = game.result;
+        
+  });
 
-function playGame() {
-    // generate two truths and one lie
-    truth_1_index = Math.floor(Math.random() * truths.length);
-    do {
-        truth_2_index = Math.floor(Math.random() * truths.length);
-    }while (truth_1_index === truth_2_index);
-    
-    lie_index = Math.floor(Math.random() * lies.length);
-    twoTruthsOneLie = [truths[truth_1_index], truths[truth_2_index], lies[lie_index]];
-    shuffle(twoTruthsOneLie) //randomize the order of the items in the list
-    console.log (twoTruthsOneLie);
 
-    // Add it to the page.
-    var TheInnerHTML ="<div>";
-    for (i = 0; i < twoTruthsOneLie.length; i++) {
-        TheInnerHTML += "<label> \
-                            <input type=\"radio\" name =\"group1\" id =" + i + " value=\""+ twoTruthsOneLie[i] + "\" onchange=\"printGameResult()\"/>\
-                            <span style = \"color: #410219\">"+ twoTruthsOneLie[i] + "</span>\
 
-                        </label><br>";
-    }
-    TheInnerHTML += "</div>";
-    document.getElementById("game-container").innerHTML = TheInnerHTML;
-    document.getElementById("game-result").innerText = '';
-}
+function createLabelElement(text, id) {
+    const labelElement = document.createElement('label');
 
-function printGameResult() {
-    //get selected item
-    var result = '';
-    if (document.getElementById('0').checked) {
-        result = document.getElementById('0').value;
-    }else if (document.getElementById('1').checked) {
-        result = document.getElementById('1').value;
-    }else  {
-        result = document.getElementById('2').value;
-    }
-    console.log(result);
+    const inputElement = document.createElement('input');
+    inputElement.setAttribute("type", "radio");
+    inputElement.setAttribute("name", "fact");
+    inputElement.setAttribute("value", text);
+    inputElement.setAttribute("id", id);
 
-    //check and print result
-    var TheInnerHTML = ''
-    if (lies.includes(result)) {
-        TheInnerHTML = 'Yay! You were right :)';
-    }else {
-        TheInnerHTML = 'Try again :)';
-    }
-    document.getElementById("game-result").innerText = TheInnerHTML;
-}
+    const spanElement = document.createElement('span');
+    spanElement.innerText= text;
+    spanElement.setAttribute("style", "color: #410219");
 
-// shuffle an array using the Durstenfeld shuffle algorithm 
-function shuffle(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var randomIndex = Math.floor(Math.random() * (i+1));
-        var swap = array[randomIndex];
-        array[randomIndex] = array[i];
-        array[i] = swap;
-    }
+    labelElement.appendChild(inputElement);
+    labelElement.appendChild(spanElement);
+    return labelElement;
 }
