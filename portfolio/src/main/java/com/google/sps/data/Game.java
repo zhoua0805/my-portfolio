@@ -87,5 +87,4 @@ public class Game {
             array[i] = swap;
         }
     }
-
 }
