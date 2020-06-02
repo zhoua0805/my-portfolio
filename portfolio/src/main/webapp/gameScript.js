@@ -38,9 +38,9 @@ function getFacts() {
             type=\"submit\" name=\"action\">Submit </button>";
         
         gameContainer.appendChild(formElement);
-        document.getElementById("game-result").innerText = game.result;
-        
+        document.getElementById("game-result").innerText = game.result;    
   });
+}
 
 
 

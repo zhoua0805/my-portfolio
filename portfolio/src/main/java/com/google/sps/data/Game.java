@@ -41,6 +41,7 @@ public class Game {
     public String[] getLies(){
         return LIES;
     }
+
     public String getResult(){
         return result;
     }
@@ -74,6 +75,7 @@ public class Game {
     public void gameInvalid(){
         result = "Invalid input!";
     }
+    
     // shuffle an array using the Durstenfeld shuffle algorithm 
     public void shuffle(String[] array) {
         int randomIndex;
@@ -85,5 +87,4 @@ public class Game {
             array[i] = swap;
         }
     }
-
 }
