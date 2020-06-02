@@ -12,23 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.sps.servlets;
-import com.google.gson.Gson;
+package com.google.sps.data;
 
-import java.io.IOException;
-import javax.servlet.annotation.WebServlet;
 import java.util.Arrays;
 import java.util.List;
 import java.lang.*; 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
-//play a game of two truths and one lie
-@WebServlet("/two-truths-one-lie")
-public class Game extends HttpServlet {
 
+//Class representing the two truths and one lie game.
+public class Game {
     private String[] truths = new String[] {"I play the piano.", 
                     "I don\'t like pineapples on pizza.",
                     "I have never been skydiving before.", 
@@ -40,14 +32,24 @@ public class Game extends HttpServlet {
                 "I was born in the year of the tiger."};
 
     private String[] twoTruthsOneLie = new String[3];
-    
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // generate two truths and one lie
+    private String result = " ";
+
+    public String[] getFacts(){
+        return twoTruthsOneLie;
+    }
+
+    public String[] getLies(){
+        return lies;
+    }
+    public String getResult(){
+        return result;
+    }
+
+    //generate 2 truths and 1 lie
+    public void generateFacts() {
         int truth_1_index;
         int truth_2_index;
         int lie_index;
-        String TheInnerHTML;
 
         truth_1_index = (int) (Math.random() * truths.length);
         do {
@@ -58,15 +60,21 @@ public class Game extends HttpServlet {
         twoTruthsOneLie[0] = truths[truth_1_index];
         twoTruthsOneLie[1] = truths[truth_2_index];
         twoTruthsOneLie[2] = lies[lie_index];
-        shuffle(twoTruthsOneLie); //randomize the order of the items in the list   
+        shuffle(twoTruthsOneLie); //randomize the order of the items in the list
+    }
 
-        String json = convertToJsonUsingGson(twoTruthsOneLie);
+    public void gameWin(){
+        result = "Yay! You got it.";
+    }
 
-        response.setContentType("application/json;");
-        response.getWriter().println(json);
-  }
+    public void gameLose(){
+        result = "Try again :(";
+    }
 
-  // shuffle an array using the Durstenfeld shuffle algorithm 
+    public void gameInvalid(){
+        result = "Invalid input!";
+    }
+    // shuffle an array using the Durstenfeld shuffle algorithm 
     public void shuffle(String[] array) {
         int randomIndex;
     	String swap;
@@ -78,11 +86,4 @@ public class Game extends HttpServlet {
         }
     }
 
-    //using Gson to convert to Json
-    private String convertToJsonUsingGson(String[] array) {
-        Gson gson = new Gson();
-        String json = gson.toJson(array);
-        return json;
-  }
 }
-

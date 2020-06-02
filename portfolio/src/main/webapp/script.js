@@ -15,26 +15,30 @@
 
 //fecth two truths and one lie from the server
 function getFacts() {
-    fetch('/two-truths-one-lie').then(response => response.json()).then((facts) => {
+    fetch('/two-truths-one-lie').then(response => response.json()).then((game) => {
+        facts = game.twoTruthsOneLie;
         console.log(facts);
-        const divElement = document.createElement('div');
-        const brElement = document.createElement('br');
+        const formElement = document.createElement('form');
+        formElement.setAttribute("action", "/two-truths-one-lie");
+        formElement.setAttribute("method", "POST");
 
         const gameContainer = document.getElementById('game-container');
         gameContainer.innerHTML = '';
-        divElement.appendChild(
+        formElement.appendChild(
             createLabelElement(facts[0], "0"));
-        divElement.appendChild(document.createElement('br'));
-        divElement.appendChild(
+        formElement.appendChild(document.createElement('br'));
+        formElement.appendChild(
             createLabelElement(facts[1], "1"));
-        divElement.appendChild(document.createElement('br'));
-        divElement.appendChild(
+        formElement.appendChild(document.createElement('br'));
+        formElement.appendChild(
             createLabelElement(facts[2], "2"));
-        divElement.appendChild(document.createElement('br'));
-
-        gameContainer.appendChild(divElement);
-
-        document.getElementById("game-result").innerText = '';
+        formElement.appendChild(document.createElement('br'));
+        formElement.appendChild(document.createElement('br'));
+        formElement.innerHTML += "<button class=\"btn waves-effect waves-light\" type=\"submit\" name=\"action\">Submit </button>"
+        
+        gameContainer.appendChild(formElement);
+        document.getElementById("game-result").innerText = game.result;
+        
   });
 }
 
@@ -47,7 +51,6 @@ function createLabelElement(text, id) {
     inputElement.setAttribute("name", "group1");
     inputElement.setAttribute("value", text);
     inputElement.setAttribute("id", id);
-    inputElement.setAttribute("onchange", "printGameResult()");
 
     const spanElement = document.createElement('span');
     spanElement.innerText= text;
@@ -56,36 +59,4 @@ function createLabelElement(text, id) {
     labelElement.appendChild(inputElement);
     labelElement.appendChild(spanElement);
     return labelElement;
-}
-
-const truths = ['I play the piano.', 
-                    'I don\'t like pineapples on pizza.',
-                    'I have never been skydiving before.', 
-                    'I am hungry.', 
-                    'I visited my friend in Manchester last Christmas.', ]; 
-const lies = ['My favourite subject in high school was Calculus.',  
-                'I have two brothers.',
-                'I was born in the year of the tiger.']; 
-
-
-function printGameResult() {
-    //get selected item
-    var result = '';
-    if (document.getElementById('0').checked) {
-        result = document.getElementById('0').value;
-    }else if (document.getElementById('1').checked) {
-        result = document.getElementById('1').value;
-    }else  {
-        result = document.getElementById('2').value;
-    }
-    console.log(result);
-
-    //check and print result
-    var TheInnerHTML = ''
-    if (lies.includes(result)) {
-        TheInnerHTML = 'Yay! You were right :)';
-    }else {
-        TheInnerHTML = 'Try again :)';
-    }
-    document.getElementById("game-result").innerText = TheInnerHTML;
 }
