@@ -14,7 +14,14 @@
 
 package com.google.sps.servlets;
 import com.google.gson.Gson;
+import com.google.sps.data.Comment;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import java.util.Arrays;
@@ -29,10 +36,22 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/comments")
 public class CommentsServlet extends HttpServlet {
-    private final List<String[]> comments = new ArrayList<>();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Query query = new Query("Comment");
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery results = datastore.prepare(query);
+
+        List<Comment> comments = new ArrayList<>();
+        for (Entity entity : results.asIterable()) {
+            long id = entity.getKey().getId();
+            String name = (String) entity.getProperty("name");
+            String content = (String) entity.getProperty("content");
+            Comment comment = new Comment(id, name, content);
+            comments.add(comment);
+        }
+
         response.setContentType("application/json");
         String json = new Gson().toJson(comments);
         response.getWriter().println(json);
@@ -40,10 +59,15 @@ public class CommentsServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            String[] comment = new String[2];
-            comment[0] = "name: " + request.getParameter("fullname");
-            comment[1] = "comment: " + request.getParameter("comment");
-            comments.add(comment);
+            String name = request.getParameter("fullname");
+            String content = request.getParameter("comment");
+
+            Entity commentEntity = new Entity("Comment");
+            commentEntity.setProperty("name", name);
+            commentEntity.setProperty("content", content);
+
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            datastore.put(commentEntity);
             response.sendRedirect("/index.html#game");
     }
 }
