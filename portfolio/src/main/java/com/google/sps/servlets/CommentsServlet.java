@@ -14,7 +14,7 @@
 
 package com.google.sps.servlets;
 import com.google.gson.Gson;
-import com.google.sps.data.Comment;
+import com.google.sps.data.MapsComment;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns comments data */
+/** Servlet that stores and returns comments data */
 
 @WebServlet("/comments")
 public class CommentsServlet extends HttpServlet {
@@ -43,26 +43,32 @@ public class CommentsServlet extends HttpServlet {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
 
-        List<Comment> comments = new ArrayList<>();
+        List<MapsComment> mapsComments = new ArrayList<>();
         for (Entity entity : results.asIterable()) {
             long id = entity.getKey().getId();
+            double lat = (double) entity.getProperty("lat");
+            double lng = (double) entity.getProperty("lng");
             String name = (String) entity.getProperty("name");
             String content = (String) entity.getProperty("content");
-            Comment comment = new Comment(id, name, content);
-            comments.add(comment);
+            MapsComment comment = new MapsComment(id, lat, lng, name, content);
+            mapsComments.add(comment);
         }
 
         response.setContentType("application/json");
-        String json = new Gson().toJson(comments);
+        String json = new Gson().toJson(mapsComments);
         response.getWriter().println(json);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+            double lat = Double.valueOf(request.getParameter("lat"));
+            double lng = Double.valueOf(request.getParameter("lng"));
             String name = request.getParameter("fullname");
             String content = request.getParameter("comment");
 
             Entity commentEntity = new Entity("Comment");
+            commentEntity.setProperty("lat", lat);
+            commentEntity.setProperty("lng", lng);
             commentEntity.setProperty("name", name);
             commentEntity.setProperty("content", content);
 

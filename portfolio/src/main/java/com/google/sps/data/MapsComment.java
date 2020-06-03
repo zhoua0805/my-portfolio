@@ -15,14 +15,18 @@
 package com.google.sps.data;
 
 /** An item on a comment list. */
-public final class Comment {
+public final class MapsComment {
 
     private final long id;
+    private final double lat;
+    private final double lng;
     private final String name;
     private final String content;
 
-    public Comment(long id, String name, String content) {
+    public MapsComment(long id, double lat, double lng, String name, String content) {
         this.id = id;
+        this.lat = lat;
+        this.lng = lng;
         this.name = name;
         this.content = content;
     }
