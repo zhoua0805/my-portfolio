@@ -40,10 +40,21 @@ function addlocations(map) {
     fetch('/comments').then(response => response.json()).then((comments) => {
         console.log(comments);
         comments.forEach((comment) => {
+            var contentString = '<h5>' + comment.name + '</h5>' +
+                                '<p>' + comment.content + '</p>';
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
             var marker = new google.maps.Marker({
                 position: {lat: comment.lat, lng: comment.lng},
                 map: map,
-                title: 'Click me'
+            });
+            marker.addListener('mouseover', function() {
+                infowindow.open(map, marker);
+            });
+            marker.addListener('mouseout', function() {
+                infowindow.close();
             });
         });
   });
