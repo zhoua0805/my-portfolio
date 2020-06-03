@@ -66,12 +66,13 @@ function addlocations(map) {
   });
 }
 
-function deleteMarker(id) {
+async function deleteMarker(id) {
     const params = new URLSearchParams();
     params.append("id", id);
 
     //delete the comment from datastore
-    fetch('/delete-comment', {method: 'POST', body: params});
+    await fetch('/delete-comment', {method: 'POST', body: params});
+    initMap();
 }
 
 
