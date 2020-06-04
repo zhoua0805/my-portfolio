@@ -18,12 +18,26 @@
 function initMap() {
     const COORDINATES_WATERLOO = {lat: 43.4643, lng: -80.5204};
     const COORDINATES_TORONTO = {lat:43.6532, lng: -79.3832};
-    let bounds = new google.maps.LatLngBounds();
+
     let map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
         center: COORDINATES_WATERLOO
     });
 
+    const MARKER_WATERLOO = new google.maps.Marker({
+        position: COORDINATES_WATERLOO,
+        map: map,
+        title: 'Click me'
+    });
+    const MARKER_TORONTO = new google.maps.Marker({
+        position: COORDINATES_TORONTO,
+        map: map,
+        title: 'Click me'
+    });
+    let displayBounds = new google.maps.LatLngBounds();
+    displayBounds.extend(COORDINATES_WATERLOO);
+    displayBounds.extend(COORDINATES_TORONTO);
+    
     let input = document.getElementById("search-input");
     let searchBox = new google.maps.places.SearchBox(input);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -34,10 +48,10 @@ function initMap() {
     });
     
     let searchMarker = new google.maps.Marker();
-
     //add a marker to the first result returned
     searchBox.addListener('places_changed', function() {
         let places = searchBox.getPlaces();
+        let searchBounds = new google.maps.LatLngBounds();
         console.log(places);
         if (places.length ==0 ) {
             return;
@@ -53,34 +67,23 @@ function initMap() {
      
         //set bounds (some places don't have viewport)
         if (place.geometry.viewport) {
-            bounds.union(place.geometry.viewport);
+            searchBounds.union(place.geometry.viewport);
         } else {
-            bounds.extend(place.geometry.location);
+            searchBounds.extend(place.geometry.location);
         }
-        map.fitBounds(bounds);
+        map.fitBounds(searchBounds);
 
         //set form values to the position of the place
         document.getElementById("lat").value = searchMarker.getPosition().lat();
         document.getElementById("lng").value = searchMarker.getPosition().lng();
     });
-
-    const MARKER_WATERLOO = new google.maps.Marker({
-        position: COORDINATES_WATERLOO,
-        map: map,
-        title: 'Click me'
-    });
-    const MARKER_TORONTO = new google.maps.Marker({
-        position: COORDINATES_TORONTO,
-        map: map,
-        title: 'Click me'
-    });
-    
-    addlocations(map);
+ 
+    addlocations(map, displayBounds);
 }
 
 
 //fecth comments from the server
-function addlocations(map) {
+function addlocations(map, bounds) {
     fetch('/comments').then(response => response.json()).then((comments) => {
         console.log(comments);
         comments.forEach((comment) => {
@@ -105,6 +108,9 @@ function addlocations(map) {
                 }
                 i++;
             });
+            
+            bounds.extend(marker.getPosition()); 
+            map.fitBounds(bounds);
         });
   });
 }
