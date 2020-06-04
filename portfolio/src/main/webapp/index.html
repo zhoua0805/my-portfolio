@@ -136,14 +136,15 @@
                  <form action="/comments" method="POST">
                     <label for="name">Full Name: <input type="text" id="fullname" name="fullname" value="Alice Zhou"> </label>
                     <label for="comment">Your Comment: <input type="text" id="comment" name="comment" value="Hello World!"> </label>
-                    <label for="lat">Latitude: <input type="number" name="lat"></input></label>
-                    <label for="lng">Longtitude: <input type="number" name="lng"></input></label>
+                    <label for="lat">Latitude: <input type="number" name="lat" id="lat" step = "0.0000001" ></input></label>
+                    <label for="lng">Longitude: <input type="number" name="lng" id="lng" step = "0.00000001"></input></label>
                     <button class="btn waves-effect waves-light" type="submit\" name="action">Submit</button>
                 </form> 
+                <input id="pac-input" class="controls" type="text" placeholder="Search Box">
             </div>
             <div id="map"></div>
             <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8qc6oxpo1PCtN8QouYOZlOhKu6748yx4&callback=initMap">
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8qc6oxpo1PCtN8QouYOZlOhKu6748yx4&libraries=places&callback=initMap">
             </script>
         </div>
 

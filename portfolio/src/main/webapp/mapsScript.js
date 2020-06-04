@@ -21,6 +21,48 @@ function initMap() {
     center: coordin_wat
     });
 
+    var input = document.getElementById("pac-input");
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    //reset bounds if places returned are out of view
+    map.addListener('bounds_changed', function() {
+        searchBox.setBounds(map.getBounds());
+    });
+    
+    var searchMarker = new google.maps.Marker();
+
+    //add a marker to the first result returned
+    searchBox.addListener('places_changed', function() {
+        var places = searchBox.getPlaces();
+        console.log(places);
+        if (places.length ==0 ) {
+            return;
+        }
+        place = places[0]
+        if (!place.geometry) {
+            console.log("Returned place contains no geometry");
+        return;
+        }
+
+        searchMarker.setMap(map);
+        searchMarker.setTitle(place.name);
+        searchMarker.setPosition(place.geometry.location);
+     
+        //set bounds
+        var bounds = new google.maps.LatLngBounds();
+        if (place.geometry.viewport) {
+            bounds.union(place.geometry.viewport);
+        } else {
+            bounds.extend(place.geometry.location);
+        }
+        map.fitBounds(bounds);
+
+        //set form values to the position of the place
+        document.getElementById("lat").value = searchMarker.getPosition().lat();
+        document.getElementById("lng").value = searchMarker.getPosition().lng();
+    });
+
     var marker_wat = new google.maps.Marker({
     position: coordin_wat,
     map: map,
@@ -72,7 +114,7 @@ async function deleteMarker(id) {
 
     //delete the comment from datastore
     await fetch('/delete-comment', {method: 'POST', body: params});
-    initMap();
+    window.location.reload(true); 
 }
 
 
