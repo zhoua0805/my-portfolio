@@ -91,12 +91,20 @@ h1,h2,h3,h4,h5,h6{
 }
 
 #map {
-        height: 60vh;
+    height: 60vh;
+}
+
+#search-input {
+    background: white;
+    margin-top: 5px;
+    width: 80vw;   
 }
 
 .input-comments {
-    margin-left:20vh;
-    margin-right:20vh;
+    margin-left:10vw;
+    margin-right:10vw;
+    margin-top: 30px;
+    align-items: center;
 }
 
 .locations{
