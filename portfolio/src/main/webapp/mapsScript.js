@@ -18,7 +18,7 @@
 function initMap() {
     const COORDINATES_WATERLOO = {lat: 43.4643, lng: -80.5204};
     const COORDINATES_TORONTO = {lat:43.6532, lng: -79.3832};
-    var bounds = new google.maps.LatLngBounds();
+    let bounds = new google.maps.LatLngBounds();
     let map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
         center: COORDINATES_WATERLOO
@@ -74,6 +74,7 @@ function initMap() {
         map: map,
         title: 'Click me'
     });
+    
     addlocations(map);
 }
 
@@ -84,7 +85,6 @@ function addlocations(map) {
         console.log(comments);
         comments.forEach((comment) => {
             let i = 0;
-            
             let contentString = '<h5>' + comment.name + '</h5>' +
                         '<p>' + comment.content + '</p> </div>' +
                         '<button onclick=\"deleteMarker('+ comment.id +')\"> \

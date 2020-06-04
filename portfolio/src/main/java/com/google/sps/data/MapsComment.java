@@ -18,8 +18,8 @@ package com.google.sps.data;
 public final class MapsComment {
 
     private final long id;
-    private final double lat;
-    private final double lng;
+    private final double lat; //latitude coordinate
+    private final double lng; //longitutde coordinate
     private final String name;
     private final String content;
 
