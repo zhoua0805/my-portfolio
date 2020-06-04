@@ -16,12 +16,13 @@
 function initMap() {
     var coordin_wat = {lat: 43.4643, lng: -80.5204};
     var coordin_tor = {lat:43.6532, lng: -79.3832};
+    var bounds = new google.maps.LatLngBounds();
     var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
-    center: coordin_wat
+        zoom: 8,
+        center: coordin_wat
     });
 
-    var input = document.getElementById("pac-input");
+    var input = document.getElementById("search-input");
     var searchBox = new google.maps.places.SearchBox(input);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
@@ -41,16 +42,15 @@ function initMap() {
         }
         place = places[0]
         if (!place.geometry) {
-            console.log("Returned place contains no geometry");
-        return;
+            console.log("The place has no geometry!");
+            return;
         }
 
         searchMarker.setMap(map);
         searchMarker.setTitle(place.name);
         searchMarker.setPosition(place.geometry.location);
      
-        //set bounds
-        var bounds = new google.maps.LatLngBounds();
+        //set bounds (some places don't have viewport)
         if (place.geometry.viewport) {
             bounds.union(place.geometry.viewport);
         } else {
@@ -64,14 +64,14 @@ function initMap() {
     });
 
     var marker_wat = new google.maps.Marker({
-    position: coordin_wat,
-    map: map,
-    title: 'Click me'
+        position: coordin_wat,
+        map: map,
+        title: 'Click me'
     });
     var marker_tor = new google.maps.Marker({
-    position: coordin_tor,
-    map: map,
-    title: 'Click me'
+        position: coordin_tor,
+        map: map,
+        title: 'Click me'
     });
     addlocations(map);
 }
