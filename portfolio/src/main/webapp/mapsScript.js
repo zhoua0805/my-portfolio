@@ -14,20 +14,20 @@
 
 
 function initMap() {
-    var coordin_wat = {lat: 43.4643, lng: -80.5204};
-    var coordin_tor = {lat:43.6532, lng: -79.3832};
-    var map = new google.maps.Map(document.getElementById('map'), {
+    const COORDINATES_WATERLOO = {lat: 43.4643, lng: -80.5204};
+    const COORDINATES_TORONTO = {lat:43.6532, lng: -79.3832};
+    let map = new google.maps.Map(document.getElementById('map'), {
     zoom: 4,
-    center: coordin_wat
+    center: COORDINATES_WATERLOO
     });
 
-    var marker_wat = new google.maps.Marker({
-    position: coordin_wat,
+    const MARKER_WATERLOO = new google.maps.Marker({
+    position: COORDINATES_WATERLOO,
     map: map,
     title: 'Click me'
     });
-    var marker_tor = new google.maps.Marker({
-    position: coordin_tor,
+    let MARKER_TORONTO = new google.maps.Marker({
+    position: COORDINATES_TORONTO,
     map: map,
     title: 'Click me'
     });
@@ -40,13 +40,13 @@ function addlocations(map) {
     fetch('/comments').then(response => response.json()).then((comments) => {
         console.log(comments);
         comments.forEach((comment) => {
-            var contentString = '<h5>' + comment.name + '</h5>' +
+            let contentString = '<h5>' + comment.name + '</h5>' +
                                 '<p>' + comment.content + '</p>';
-            var infowindow = new google.maps.InfoWindow({
+            let infowindow = new google.maps.InfoWindow({
                 content: contentString
             });
 
-            var marker = new google.maps.Marker({
+            let marker = new google.maps.Marker({
                 position: {lat: comment.lat, lng: comment.lng},
                 map: map,
             });
