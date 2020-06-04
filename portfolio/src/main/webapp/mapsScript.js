@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// This function has code that is referenced from the GoogleMaps Platform
+// Documentation: https://developers.google.com/maps/documentation/javascript/tutorial
 
 function initMap() {
     var coordin_wat = {lat: 43.4643, lng: -80.5204};
