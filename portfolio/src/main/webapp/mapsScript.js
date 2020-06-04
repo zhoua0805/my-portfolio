@@ -24,18 +24,18 @@ function initMap() {
     const MARKER_WATERLOO = new google.maps.Marker({
     position: COORDINATES_WATERLOO,
     map: map,
-    title: 'Click me'
+    title: 'Waterloo'
     });
     let MARKER_TORONTO = new google.maps.Marker({
     position: COORDINATES_TORONTO,
     map: map,
-    title: 'Click me'
+    title: 'Toronto'
     });
     addlocations(map);
 }
 
 
-//fecth comments from the server
+//fetch comments from the server
 function addlocations(map) {
     fetch('/comments').then(response => response.json()).then((comments) => {
         console.log(comments);
