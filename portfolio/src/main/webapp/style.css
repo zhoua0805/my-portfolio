@@ -94,14 +94,28 @@ h1,h2,h3,h4,h5,h6{
     background: black !important;
 }
 
+#submit-filter{
+    background: white !important;
+    color: black !important;
+}
+
+#submit-filter:hover{
+    background: #410219 !important;
+    color: white !important;
+}
+
 #map {
     height: 60vh;
+    z-index: 0;
 }
 
 #search-input {
+    position: relative;
+    top: 6vh;
     background: white;
     margin-top: 5px;
-    width: 80vw;   
+    width: 80vw;  
+    z-index: 1; 
 }
 
 .input-comments {
