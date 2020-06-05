@@ -41,7 +41,6 @@ function initMap(){
     
     let input = document.getElementById("search-input");
     let searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
     //reset bounds if places returned are out of view
     map.addListener('bounds_changed', function() {
@@ -85,7 +84,6 @@ function initMap(){
 //fecth comments from the server
 function addlocations(map, bounds) {
     fetch('/comments?options='+ getFilterOptions()).then(response => response.json()).then((comments) => {
-        console.log(comments);
         comments.forEach((comment) => {
             let i = 0;
             let contentString = '<h5>' + comment.name + '</h5>' +

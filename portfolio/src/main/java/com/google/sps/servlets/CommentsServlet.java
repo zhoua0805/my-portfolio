@@ -41,7 +41,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/comments")
 public class CommentsServlet extends HttpServlet {
-
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Filter> filters = new ArrayList<>();
@@ -52,9 +51,10 @@ public class CommentsServlet extends HttpServlet {
         if(queryString.split("=").length != 1){ 
             String [] filterOptions = (queryString.split("=")[1]).split("%20");
             if (filterOptions.length == 1){  
-                query = new Query("Comment")
-                    .setFilter(new FilterPredicate("category", FilterOperator.EQUAL, filterOptions[0]));
-            }else {  //if multiple filters are applied, use compositefilter
+                query = new Query("Comment").setFilter
+                    (new FilterPredicate("category", FilterOperator.EQUAL, filterOptions[0]));
+            }else {  
+                //if multiple filters are applied, use compositefilter
                 for (String option: filterOptions) {
                     filters.add (new FilterPredicate("category", FilterOperator.EQUAL, option));
                 }
@@ -62,7 +62,6 @@ public class CommentsServlet extends HttpServlet {
                 query = new Query("Comment").setFilter(optionsFilter);
             }
         }
-
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
 

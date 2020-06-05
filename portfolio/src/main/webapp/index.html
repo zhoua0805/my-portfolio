@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="gameScript.js"></script>
     <script src="mapsScript.js"></script>
+    <script src="buttonScript.js"></script>
 
     <!--Import fonts and icons-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -25,7 +26,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   </head>
-  <body onload = "getFacts();">    
+  <body onload = "getFacts(); selectFilters();">    
     <div id="content">                
         <div class="navbar-fixed">                  
         <nav>   
@@ -133,24 +134,12 @@
         <div class = "locations"> 
             <h4>--- My Locations ---</h4>
             <div style="display: inline">
-                <button class="filter-btn waves-light btn" name="your-location">Your Locations</button> 
-                <button class="filter-btn waves-light btn" name="mutual-location">Our Mutual Locations</button> 
-                <button class="filter-btn waves-light btn" name="other-location">Other</button>
+                <button class="filter-btn waves-light btn" name="your-location" id="your-location">Your Locations</button> 
+                <button class="filter-btn waves-light btn" name="mutual-location"  id="mutual-location">Our Mutual Locations</button> 
+                <button class="filter-btn waves-light btn" name="other-location" id="other-location">Other</button>
+                <button class="waves-light btn" id="submit-filter" onclick="submitFilters()"> Submit </button>
             </div>
-            <script>
-             //add onclick function to the buttons
-                let filter = document.getElementsByClassName("filter-btn");
-                for (let i = 0; i<filter.length; i++){
-                     filter[i].addEventListener("click", function(){
-                        if (this.className.includes(' active')){
-                            this.className = this.className.replace(" active", "");
-                        }else {
-                            this.className += " active";
-                        } 
-                        window.location.reload(true); 
-                    });   
-                }
-            </script>
+        
             <input id="search-input" class="controls" type="text" placeholder="Search Box">
             <div id="map"></div>
             <script async defer
