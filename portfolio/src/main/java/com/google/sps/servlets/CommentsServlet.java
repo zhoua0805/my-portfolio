@@ -18,6 +18,11 @@ import com.google.sps.data.MapsComment;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -39,7 +44,25 @@ public class CommentsServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Query query = new Query("Comment");
+        List<Filter> filters = new ArrayList<>();
+        String queryString = request.getQueryString();
+        Query query = new Query("Comment"); //no filters if nothing is selected;
+
+        //add filters if users select one or more filtering options
+        if(queryString.split("=").length != 1){ 
+            String [] filterOptions = (queryString.split("=")[1]).split("%20");
+            if (filterOptions.length == 1){  
+                query = new Query("Comment")
+                    .setFilter(new FilterPredicate("category", FilterOperator.EQUAL, filterOptions[0]));
+            }else {  //if multiple filters are applied, use compositefilter
+                for (String option: filterOptions) {
+                    filters.add (new FilterPredicate("category", FilterOperator.EQUAL, option));
+                }
+                CompositeFilter optionsFilter = CompositeFilterOperator.or(filters);
+                query = new Query("Comment").setFilter(optionsFilter);
+            }
+        }
+
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
 

@@ -133,12 +133,12 @@
         <div class = "locations"> 
             <h4>--- My Locations ---</h4>
             <div style="display: inline">
-                <button class="filter-btn waves-light btn" name="my-locations">My Locations</button> 
-                <button class="filter-btn waves-light btn" name="your-locations">Your Locations</button> 
-                <button class="filter-btn waves-light btn" name="mutual-locations">Our Mutual Locations</button> 
-                <button class="filter-btn waves-light btn" name="other">Other</button>
+                <button class="filter-btn waves-light btn" name="your-location">Your Locations</button> 
+                <button class="filter-btn waves-light btn" name="mutual-location">Our Mutual Locations</button> 
+                <button class="filter-btn waves-light btn" name="other-location">Other</button>
             </div>
-            <script> //add onclick function to the buttons
+            <script>
+             //add onclick function to the buttons
                 let filter = document.getElementsByClassName("filter-btn");
                 for (let i = 0; i<filter.length; i++){
                      filter[i].addEventListener("click", function(){
@@ -147,12 +147,12 @@
                         }else {
                             this.className += " active";
                         } 
-                        addlocations();
+                        window.location.reload(true); 
                     });   
                 }
             </script>
-            <div id="map"></div>
             <input id="search-input" class="controls" type="text" placeholder="Search Box">
+            <div id="map"></div>
             <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8qc6oxpo1PCtN8QouYOZlOhKu6748yx4&libraries=places&callback=initMap">
             </script>  

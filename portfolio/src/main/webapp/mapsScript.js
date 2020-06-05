@@ -16,15 +16,7 @@
 // Documentation: https://developers.google.com/maps/documentation/javascript/tutorial
 
 
-// Create the script tag, set the appropriate attributes
-// var script = document.createElement('script');
-// script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA8qc6oxpo1PCtN8QouYOZlOhKu6748yx4&libraries=places&callback=initMap";
-// script.defer = true;
-// script.async = true;
-// document.head.appendChild(script);
-
-
-async function initMap(){
+function initMap(){
     const COORDINATES_WATERLOO = {lat: 43.4643, lng: -80.5204};
     const COORDINATES_TORONTO = {lat:43.6532, lng: -79.3832};
 
