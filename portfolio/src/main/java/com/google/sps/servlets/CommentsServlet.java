@@ -49,8 +49,9 @@ public class CommentsServlet extends HttpServlet {
             double lat = (double) entity.getProperty("lat");
             double lng = (double) entity.getProperty("lng");
             String name = (String) entity.getProperty("name");
+            String category = (String) entity.getProperty("category");
             String content = (String) entity.getProperty("content");
-            MapsComment comment = new MapsComment(id, lat, lng, name, content);
+            MapsComment comment = new MapsComment(id, lat, lng, name, category, content);
             mapsComments.add(comment);
         }
 
@@ -64,12 +65,14 @@ public class CommentsServlet extends HttpServlet {
             double lat = Double.valueOf(request.getParameter("lat"));
             double lng = Double.valueOf(request.getParameter("lng"));
             String name = request.getParameter("fullname");
+            String category = request.getParameter("category");
             String content = request.getParameter("comment");
 
             Entity commentEntity = new Entity("Comment");
             commentEntity.setProperty("lat", lat);
             commentEntity.setProperty("lng", lng);
             commentEntity.setProperty("name", name);
+            commentEntity.setProperty("category", category);
             commentEntity.setProperty("content", content);
 
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

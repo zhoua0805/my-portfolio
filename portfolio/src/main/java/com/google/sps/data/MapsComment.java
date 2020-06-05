@@ -21,13 +21,15 @@ public final class MapsComment {
     private final double lat; //latitude coordinate
     private final double lng; //longitutde coordinate
     private final String name;
+    private final String category;
     private final String content;
 
-    public MapsComment(long id, double lat, double lng, String name, String content) {
+    public MapsComment(long id, double lat, double lng, String name, String category, String content) {
         this.id = id;
         this.lat = lat;
         this.lng = lng;
         this.name = name;
+        this.category = category;
         this.content = content;
     }
 }

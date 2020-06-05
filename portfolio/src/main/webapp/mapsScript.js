@@ -15,7 +15,16 @@
 // This function has code that is referenced from the GoogleMaps Platform
 // Documentation: https://developers.google.com/maps/documentation/javascript/tutorial
 
-function initMap() {
+
+// Create the script tag, set the appropriate attributes
+// var script = document.createElement('script');
+// script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA8qc6oxpo1PCtN8QouYOZlOhKu6748yx4&libraries=places&callback=initMap";
+// script.defer = true;
+// script.async = true;
+// document.head.appendChild(script);
+
+
+async function initMap(){
     const COORDINATES_WATERLOO = {lat: 43.4643, lng: -80.5204};
     const COORDINATES_TORONTO = {lat:43.6532, lng: -79.3832};
 
@@ -77,14 +86,13 @@ function initMap() {
         document.getElementById("lat").value = searchMarker.getPosition().lat();
         document.getElementById("lng").value = searchMarker.getPosition().lng();
     });
- 
     addlocations(map, displayBounds);
 }
 
 
 //fecth comments from the server
 function addlocations(map, bounds) {
-    fetch('/comments').then(response => response.json()).then((comments) => {
+    fetch('/comments?options='+ getFilterOptions()).then(response => response.json()).then((comments) => {
         console.log(comments);
         comments.forEach((comment) => {
             let i = 0;
@@ -124,5 +132,13 @@ async function deleteMarker(id) {
     window.location.reload(true); 
 }
 
+function getFilterOptions(){
+    options= '';
+    let selected = document.getElementsByClassName('active');
+    for (let i = 0; i< selected.length; i++){
+        options += selected[i].name + ' ';
+    }
+    return options;
+}
 
 

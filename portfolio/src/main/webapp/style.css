@@ -90,6 +90,10 @@ h1,h2,h3,h4,h5,h6{
     border-style: hidden hidden solid hidden;
 }
 
+.filter-btn.active{
+    background: black !important;
+}
+
 #map {
     height: 60vh;
 }
