@@ -14,28 +14,28 @@
 
 
 function initMap() {
-    var coordin_wat = {lat: 43.4643, lng: -80.5204};
-    var coordin_tor = {lat:43.6532, lng: -79.3832};
-    var map = new google.maps.Map(document.getElementById('map'), {
+    const COORDINATES_WATERLOO = {lat: 43.4643, lng: -80.5204};
+    const COORDINATES_TORONTO = {lat:43.6532, lng: -79.3832};
+    let map = new google.maps.Map(document.getElementById('map'), {
     zoom: 4,
-    center: coordin_wat
+    center: COORDINATES_WATERLOO
     });
 
-    var marker_wat = new google.maps.Marker({
-    position: coordin_wat,
+    const MARKER_WATERLOO = new google.maps.Marker({
+    position: COORDINATES_WATERLOO,
     map: map,
-    title: 'Click me'
+    title: 'Waterloo'
     });
-    var marker_tor = new google.maps.Marker({
-    position: coordin_tor,
+    let MARKER_TORONTO = new google.maps.Marker({
+    position: COORDINATES_TORONTO,
     map: map,
-    title: 'Click me'
+    title: 'Toronto'
     });
     addlocations(map);
 }
 
 
-//fecth comments from the server
+//fetch comments from the server
 function addlocations(map) {
     fetch('/comments').then(response => response.json()).then((comments) => {
         console.log(comments);
@@ -50,7 +50,7 @@ function addlocations(map) {
                 content: contentString
             });
 
-            var marker = new google.maps.Marker({
+            let marker = new google.maps.Marker({
                 position: {lat: comment.lat, lng: comment.lng},
                 map: map,
             });
