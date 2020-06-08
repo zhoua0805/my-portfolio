@@ -40,9 +40,13 @@ function addlocations(map) {
     fetch('/comments').then(response => response.json()).then((comments) => {
         console.log(comments);
         comments.forEach((comment) => {
-            let contentString = '<h5>' + comment.name + '</h5>' +
-                                '<p>' + comment.content + '</p>';
-            let infowindow = new google.maps.InfoWindow({
+            var i = 0;
+            
+            var contentString = '<h5>' + comment.name + '</h5>' +
+                        '<p>' + comment.content + '</p> </div>' +
+                        '<button onclick=\"deleteMarker('+ comment.id +')\"> \
+                            Delete </button>';
+            var infowindow = new google.maps.InfoWindow({
                 content: contentString
             });
 
@@ -50,14 +54,25 @@ function addlocations(map) {
                 position: {lat: comment.lat, lng: comment.lng},
                 map: map,
             });
-            marker.addListener('mouseover', function() {
-                infowindow.open(map, marker);
-            });
-            marker.addListener('mouseout', function() {
-                infowindow.close();
+            marker.addListener('click', function() {
+                if (i%2 === 0) {
+                    infowindow.open(map, marker);
+                }else{
+                    infowindow.close();
+                }
+                i++;
             });
         });
   });
+}
+
+async function deleteMarker(id) {
+    const params = new URLSearchParams();
+    params.append("id", id);
+
+    //delete the comment from datastore
+    await fetch('/delete-comment', {method: 'POST', body: params});
+    initMap();
 }
 
 
