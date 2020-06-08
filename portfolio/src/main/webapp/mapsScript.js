@@ -12,41 +12,86 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// This function has code that is referenced from the GoogleMaps Platform
+// Documentation: https://developers.google.com/maps/documentation/javascript/tutorial
 
 function initMap() {
     const COORDINATES_WATERLOO = {lat: 43.4643, lng: -80.5204};
     const COORDINATES_TORONTO = {lat:43.6532, lng: -79.3832};
+
     let map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
-    center: COORDINATES_WATERLOO
+        zoom: 8,
+        center: COORDINATES_WATERLOO
     });
 
     const MARKER_WATERLOO = new google.maps.Marker({
-    position: COORDINATES_WATERLOO,
-    map: map,
-    title: 'Waterloo'
+        position: COORDINATES_WATERLOO,
+        map: map,
+        title: 'Waterloo'
     });
-    let MARKER_TORONTO = new google.maps.Marker({
-    position: COORDINATES_TORONTO,
-    map: map,
-    title: 'Toronto'
+    const MARKER_TORONTO = new google.maps.Marker({
+        position: COORDINATES_TORONTO,
+        map: map,
+        title: 'Toronto'
     });
-    addlocations(map);
+    let displayBounds = new google.maps.LatLngBounds();
+    displayBounds.extend(COORDINATES_WATERLOO);
+    displayBounds.extend(COORDINATES_TORONTO);
+    
+    let input = document.getElementById("search-input");
+    let searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    //Reset bounds if places returned are out of view.
+    map.addListener('bounds_changed', function() {
+        searchBox.setBounds(map.getBounds());
+    });
+    
+    let searchMarker = new google.maps.Marker();
+    //Add a marker to the first result returned.
+    searchBox.addListener('places_changed', function() {
+        let places = searchBox.getPlaces();
+        let searchBounds = new google.maps.LatLngBounds();
+        console.log(places);
+        if (places.length == 0 ) {
+            return;
+        }
+        place = places[0]
+        if (!place.geometry) {
+            console.log("The place has no geometry!");
+            return;
+        }
+        searchMarker.setMap(map);
+        searchMarker.setTitle(place.name);
+        searchMarker.setPosition(place.geometry.location);
+     
+        //Set bounds.
+        if (place.geometry.viewport) {
+            searchBounds.union(place.geometry.viewport);
+        } else {
+            searchBounds.extend(place.geometry.location);
+        }
+        map.fitBounds(searchBounds);
+
+        //Set form values to the position of the place.
+        document.getElementById("lat").value = searchMarker.getPosition().lat().toFixed(7);
+        document.getElementById("lng").value = searchMarker.getPosition().lng().toFixed(7);
+
+    });
+ 
+    addlocations(map, displayBounds);
 }
 
-
-//fetch comments from the server
-function addlocations(map) {
+//Fetch comments from the server.
+function addlocations(map, bounds) {
     fetch('/comments').then(response => response.json()).then((comments) => {
         console.log(comments);
         comments.forEach((comment) => {
-            var i = 0;
-            
-            var contentString = '<h5>' + comment.name + '</h5>' +
+            let contentString = '<h5>' + comment.name + '</h5>' +
                         '<p>' + comment.content + '</p> </div>' +
                         '<button onclick=\"deleteMarker('+ comment.id +')\"> \
                             Delete </button>';
-            var infowindow = new google.maps.InfoWindow({
+            let infowindow = new google.maps.InfoWindow({
                 content: contentString
             });
 
@@ -55,13 +100,12 @@ function addlocations(map) {
                 map: map,
             });
             marker.addListener('click', function() {
-                if (i%2 === 0) {
-                    infowindow.open(map, marker);
-                }else{
-                    infowindow.close();
-                }
-                i++;
+                infowindow.open(map, marker);
+               
             });
+            
+            bounds.extend(marker.getPosition()); 
+            map.fitBounds(bounds);
         });
   });
 }
@@ -70,9 +114,9 @@ async function deleteMarker(id) {
     const params = new URLSearchParams();
     params.append("id", id);
 
-    //delete the comment from datastore
+    //Delete the comment from datastore.
     await fetch('/delete-comment', {method: 'POST', body: params});
-    initMap();
+    window.location.reload(true); 
 }
 
 
