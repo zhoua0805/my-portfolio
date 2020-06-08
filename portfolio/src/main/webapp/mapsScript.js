@@ -42,18 +42,18 @@ function initMap(){
     let input = document.getElementById("search-input");
     let searchBox = new google.maps.places.SearchBox(input);
 
-    //reset bounds if places returned are out of view
+    //Reset bounds if places returned are out of view.
     map.addListener('bounds_changed', function() {
         searchBox.setBounds(map.getBounds());
     });
     
     let searchMarker = new google.maps.Marker();
-    //add a marker to the first result returned
+    //Add a marker to the first result returned.
     searchBox.addListener('places_changed', function() {
         let places = searchBox.getPlaces();
         let searchBounds = new google.maps.LatLngBounds();
         console.log(places);
-        if (places.length ==0 ) {
+        if (places.length == 0 ) {
             return;
         }
         place = places[0]
@@ -65,7 +65,7 @@ function initMap(){
         searchMarker.setTitle(place.name);
         searchMarker.setPosition(place.geometry.location);
      
-        //set bounds (some places don't have viewport)
+        //Set bounds.
         if (place.geometry.viewport) {
             searchBounds.union(place.geometry.viewport);
         } else {
@@ -73,20 +73,19 @@ function initMap(){
         }
         map.fitBounds(searchBounds);
 
-        //set form values to the position of the place
-        document.getElementById("lat").value = searchMarker.getPosition().lat();
-        document.getElementById("lng").value = searchMarker.getPosition().lng();
+        //Set form values to the position of the place.
+        document.getElementById("lat").value = searchMarker.getPosition().lat().toFixed(7);
+        document.getElementById("lng").value = searchMarker.getPosition().lng().toFixed(7);
     });
     addlocations(map, displayBounds);
 }
 
 
-//fetch comments from the server
+//Fetch comments from the server.
 function addlocations(map, bounds) {
-    fetch('/comments?options='+ getFilterOptions()).then(response => response.json()).then((comments) => {
+    fetch('/comments').then(response => response.json()).then((comments) => {
         console.log(comments);
         comments.forEach((comment) => {
-            let i = 0;
             let contentString = '<h5>' + comment.name + '</h5>' +
                         '<p>' + comment.content + '</p> </div>' +
                         '<button onclick=\"deleteMarker('+ comment.id +')\"> \
@@ -100,12 +99,8 @@ function addlocations(map, bounds) {
                 map: map,
             });
             marker.addListener('click', function() {
-                if (i%2 === 0) {
-                    infowindow.open(map, marker);
-                }else{
-                    infowindow.close();
-                }
-                i++;
+                infowindow.open(map, marker);
+               
             });
             
             bounds.extend(marker.getPosition()); 
@@ -118,7 +113,7 @@ async function deleteMarker(id) {
     const params = new URLSearchParams();
     params.append("id", id);
 
-    //delete the comment from datastore
+    //Delete the comment from datastore.
     await fetch('/delete-comment', {method: 'POST', body: params});
     window.location.reload(true); 
 }
