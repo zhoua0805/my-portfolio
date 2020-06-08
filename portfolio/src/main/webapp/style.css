@@ -92,9 +92,15 @@ h1,h2,h3,h4,h5,h6{
 
 .filter-btn.active{
     background: black !important;
+    color: white !important;
 }
 
-#submit-filter{
+.filter-btn {
+    background: white !important;
+    color: black !important;
+}
+
+#submit-filter {
     background: white !important;
     color: black !important;
 }
