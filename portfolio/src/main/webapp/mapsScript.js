@@ -76,6 +76,7 @@ function initMap() {
         //Set form values to the position of the place.
         document.getElementById("lat").value = searchMarker.getPosition().lat().toFixed(7);
         document.getElementById("lng").value = searchMarker.getPosition().lng().toFixed(7);
+
     });
  
     addlocations(map, displayBounds);
