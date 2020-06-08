@@ -92,7 +92,12 @@ h1,h2,h3,h4,h5,h6{
 
 #map {
         height: 60vh;
-      }
+}
+
+.input-comments {
+    margin-left:20vh;
+    margin-right:20vh;
+}
 
 .locations{
     margin-bottom: 70px;

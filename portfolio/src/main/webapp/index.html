@@ -5,7 +5,7 @@
     <title>Alice's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="gameScript.js"></script>
-    <script src="commentScript.js"></script>
+    <script src="mapsScript.js"></script>
 
     <!--Import fonts and icons-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -132,46 +132,19 @@
         <!-- my locations -->
         <div class = "locations">
             <h4>--- My Locations ---</h4>  
+            <div class="input-comments">
+                 <form action="/comments" method="POST">
+                    <label for="name">Full Name: <input type="text" id="fullname" name="fullname" value="Alice Zhou"> </label>
+                    <label for="comment">Your Comment: <input type="text" id="comment" name="comment" value="Hello World!"> </label>
+                    <label for="lat">Latitude: <input type="number" name="lat"></input></label>
+                    <label for="lng">Longtitude: <input type="number" name="lng"></input></label>
+                    <button class="btn waves-effect waves-light" type="submit\" name="action">Submit</button>
+                </form> 
+            </div>
             <div id="map"></div>
-            <script>
-            function initMap() {
-                var coordin_wat = {lat: 43.4643, lng: -80.5204};
-                var coordin_tor = {lat:43.6532, lng: -79.3832};
-                var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 8,
-                center: coordin_wat
-                });
-
-                var marker_wat = new google.maps.Marker({
-                position: coordin_wat,
-                map: map,
-                title: 'I\'m here'
-                });
-                var marker_tor = new google.maps.Marker({
-                position: coordin_tor,
-                map: map,
-                title: 'I\'m here'
-                });
-            }
-            </script>
             <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8qc6oxpo1PCtN8QouYOZlOhKu6748yx4&callback=initMap">
             </script>
-            
-        </div>
-
-        <!-- comments -->
-        <div> 
-            <h4>--- Comments ---</h4>
-            <form action="/comments" method="POST">
-                <label for="name">Full Name:</label>
-                <input type="text" id="fullname" name="fullname" value="Alice Zhou"><br>
-                <label for="comment">Your Comment</label>
-                <input type="text" id="comment" name="comment" value="Hello World!"><br><br>
-                <button class="btn waves-effect waves-light" type="submit\" name="action">Submit </button>
-            </form> 
-            <div id="comments">
-            </div>
         </div>
 
         <!-- play a game with me -->
