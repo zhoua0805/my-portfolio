@@ -27,12 +27,12 @@ function initMap() {
     const MARKER_WATERLOO = new google.maps.Marker({
         position: COORDINATES_WATERLOO,
         map: map,
-        title: 'Click me'
+        title: 'Waterloo'
     });
     const MARKER_TORONTO = new google.maps.Marker({
         position: COORDINATES_TORONTO,
         map: map,
-        title: 'Click me'
+        title: 'Toronto'
     });
     let displayBounds = new google.maps.LatLngBounds();
     displayBounds.extend(COORDINATES_WATERLOO);
@@ -82,7 +82,7 @@ function initMap() {
 }
 
 
-//fecth comments from the server
+//fetch comments from the server
 function addlocations(map, bounds) {
     fetch('/comments').then(response => response.json()).then((comments) => {
         console.log(comments);
