@@ -44,12 +44,11 @@ public class CommentsServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Filter> filters = new ArrayList<>();
-        String queryString = request.getQueryString();
-        Query query = new Query("Comment"); //no filters if nothing is selected;
+        String[] filterOptions = request.getParameterMap().get("option");
+        Query query = new Query("Comment"); //No filters if nothing is selected;
 
-        //add filters if users select one or more filtering options
-        if(queryString.split("=").length != 1){ 
-            String [] filterOptions = (queryString.split("=")[1]).split("%20");
+        //Add filters if users select one or more filtering options.
+        if(filterOptions != null){ 
             if (filterOptions.length == 1){  
                 query = new Query("Comment").setFilter
                     (new FilterPredicate("category", FilterOperator.EQUAL, filterOptions[0]));
