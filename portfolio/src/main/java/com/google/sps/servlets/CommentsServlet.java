@@ -75,7 +75,8 @@ public class CommentsServlet extends HttpServlet {
             String name = (String) entity.getProperty("name");
             String category = (String) entity.getProperty("category");
             String content = (String) entity.getProperty("content");
-            MapsComment comment = new MapsComment(id, lat, lng, name, category, content);
+            String email = (String) entity.getProperty("email");
+            MapsComment comment = new MapsComment(id, lat, lng, name, category, content, email);
             mapsComments.add(comment);
         }
 

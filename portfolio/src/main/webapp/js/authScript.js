@@ -20,7 +20,7 @@ function authenticate() {
         const navbarContentMobile = document.getElementById("mobile-demo");
 
         //If the user is logged in, show the comment form.
-        if (auth.Login) {
+        if (auth.Loggedin) {
             navbarContent.innerHTML += '<li><a class="waves-light btn" href="'
                                         + auth.url +'">Log out</a> </li>';
             navbarContentMobile.innerHTML += '<li> <a class="waves-light btn" href="'

@@ -23,13 +23,15 @@ public final class MapsComment {
     private final String name;
     private final String category;
     private final String content;
+    private final String email;
 
-    public MapsComment(long id, double lat, double lng, String name, String category, String content) {
+    public MapsComment(long id, double lat, double lng, String name, String category, String content, String email) {
         this.id = id;
         this.lat = lat;
         this.lng = lng;
         this.name = name;
         this.category = category;
         this.content = content;
+        this.email = email;
     }
 }
