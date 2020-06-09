@@ -7,6 +7,7 @@
     <script src="js/gameScript.js"></script>
     <script src="js/mapsScript.js"></script>
     <script src="js/buttonScript.js"></script>
+    <script src="js/authScript.js"></script>
 
     <!--Import fonts and icons-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -26,7 +27,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   </head>
-  <body onload = "getFacts(); selectFilters();">    
+  <body onload = "getFacts(); selectFilters(); authenticate();">    
     <div id="content">                
         <div class="navbar-fixed">                  
         <nav>   
@@ -39,6 +40,7 @@
                     <li><a href="#locations">My Locations</a></li>
                     <li><a href="#game">A Fun Quiz</a></li> 
                     <li><a href="#contacts">Contact Me</a></li>
+                    <li> <a class="waves-light btn" id="authentication"> </a> </li>
                 </ul>
             </div>
   	    </nav>
