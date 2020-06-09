@@ -13,10 +13,9 @@
 // limitations under the License.
 
 
-//Get auth
+//Get auththentication link
 function authenticate() {
     fetch('/auth').then(response => response.json()).then(auth => {
-        console.log(auth);
         const navbarContent = document.getElementById("web-navbar");
         const navbarContentMobile = document.getElementById("mobile-demo");
 
