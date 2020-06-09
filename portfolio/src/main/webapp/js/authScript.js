@@ -17,14 +17,18 @@
 function authenticate() {
     fetch('/auth').then(response => response.json()).then(auth => {
         console.log(auth);
-        console.log(auth.url);
         const logInButton = document.getElementById("authentication");
+        const logInButtonMobile = document.getElementById("authentication-mobile");
+
         if (auth.Login) {
             logInButton.innerText = "Log out";
+            logInButtonMobile.innerText = "Log out";
 
         }else{
             logInButton.innerText = "Log in";
+            logInButtonMobile.innerText = "Log in";
         }
         logInButton.setAttribute("href", auth.url);
+        logInButtonMobile.setAttribute("href", auth.url);
     });
 }
