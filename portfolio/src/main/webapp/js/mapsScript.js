@@ -83,7 +83,7 @@ function initMap(){
 
 //Fetch comments from the server.
 function addlocations(map, bounds) {
-    fetch('/comments?options='+ getFilterOptions()).then(response => response.json()).then((comments) => {
+    fetch('/comments?'+ getFilterOptions()).then(response => response.json()).then((comments) => {
         console.log(comments);
         comments.forEach((comment) => {
             let contentString = '<h5>' + comment.name + '</h5>' +
@@ -122,7 +122,7 @@ function getFilterOptions(){
     options= '';
     let selected = document.getElementsByClassName('active');
     for (let i = 0; i< selected.length; i++){
-        options += selected[i].name + ' ';
+        options += 'option=' + selected[i].name + '&';
     }
     return options;
 }
