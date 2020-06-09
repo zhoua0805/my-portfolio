@@ -59,7 +59,7 @@ public class openid extends AbstractAppEngineAuthorizationCodeServlet {
     return url.build();
   }
 
-  @Override
+  @Override 
   protected AuthorizationCodeFlow initializeFlow() throws IOException {
     return new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(),
         new UrlFetchTransport(),
