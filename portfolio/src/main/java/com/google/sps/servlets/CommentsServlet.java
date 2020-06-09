@@ -53,7 +53,8 @@ public class CommentsServlet extends HttpServlet {
                 query = new Query("Comment").setFilter
                     (new FilterPredicate("category", FilterOperator.EQUAL, filterOptions[0]));
             }else {  
-                //if multiple filters are applied, use compositefilter
+                //If multiple filters are applied, use compositefilter
+                //(CompositeFilter can only accept more than one filter.)
                 for (String option: filterOptions) {
                     filters.add (new FilterPredicate("category", FilterOperator.EQUAL, option));
                 }
