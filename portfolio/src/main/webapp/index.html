@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="gameScript.js"></script>
     <script src="mapsScript.js"></script>
+    <script src="buttonScript.js"></script>
 
     <!--Import fonts and icons-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -25,7 +26,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   </head>
-  <body onload = "getFacts();">    
+  <body onload = "getFacts(); selectFilters();">    
     <div id="content">                
         <div class="navbar-fixed">                  
         <nav>   
@@ -131,23 +132,41 @@
 
         <!-- my locations -->
         <div class = "locations"> 
-            <h4>--- My Locations ---</h4>  
-            <div id="map"></div>
+            <h4>--- My Locations ---</h4>
+            <div style="display: inline">
+                <button class="filter-btn waves-light btn" name="your-location" id="your-location">Your Locations</button> 
+                <button class="filter-btn waves-light btn" name="mutual-location"  id="mutual-location">Our Mutual Locations</button> 
+                <button class="filter-btn waves-light btn" name="other-location" id="other-location">Other</button>
+                <button class="waves-light btn" id="submit-filter" onclick="submitFilters()"> Filter </button>
+            </div>
+        
             <input id="search-input" class="controls" type="text" placeholder="Search Box">
+            <div id="map"></div>
             <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8qc6oxpo1PCtN8QouYOZlOhKu6748yx4&libraries=places&callback=initMap">
             </script>  
             <div class="input-comments">
                  <form class="row" action="/comments" method="POST">
-                    <p class="col l3 s12 offset-l1">Latitude:
-                        <input type="number" name="lat" id="lat" step = "0.0000001"></input> </p>
+                    <p class="col l3 s12">Latitude:
+                        <input type="number" name="lat" id="lat" max="90" min="-90" step = "0.0000000000001" required></input> </p>
                     <p class="col l3 s12">Longitude:
-                        <input type="number" name="lng" id="lng" step = "0.00000001"></input></p>
+                        <input type="number" name="lng" id="lng" max="180" min="-180" step = "0.00000000000001" required></input></p>
                     <p class="col l3 s12">Full Name: 
-                        <input type="text" id="fullname" name="fullname" value="Alice Zhou"> </input></p>
+                        <input type="text" id="fullname" name="fullname" > </input></p>
+                    <p class="col l3 s12">Category: 
+                        <select id="category" name="category">
+                            <option value="your-location">Your Location</option>
+                            <option value="mutual-location">Mutual Location</option>
+                            <option value="other-location">Other</option>
+                        </select>
+                        <script> //initialze materialize select tags
+                            document.addEventListener('DOMContentLoaded', function() {
+                            let elems = document.querySelectorAll('select');
+                            let instances = M.FormSelect.init(elems, {});});
+                        </script>
+                    </p>
                     <p class="col l10 offset-l1 s12">Your Comment:  
-                        <input type="text" id="comment" name="comment" value="Hello World!"> </input></p>
-
+                        <textarea type="text" id="comment" name="comment" placeholder="Hello World!"> </textarea></p>
                     <button class="btn waves-effect waves-light col s12" type="submit\" name="action">Submit</button></br>
                 </form> 
             </div>

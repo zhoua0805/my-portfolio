@@ -15,7 +15,8 @@
 // This function has code that is referenced from the GoogleMaps Platform
 // Documentation: https://developers.google.com/maps/documentation/javascript/tutorial
 
-function initMap() {
+
+function initMap(){
     const COORDINATES_WATERLOO = {lat: 43.4643, lng: -80.5204};
     const COORDINATES_TORONTO = {lat:43.6532, lng: -79.3832};
 
@@ -40,7 +41,6 @@ function initMap() {
     
     let input = document.getElementById("search-input");
     let searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
     //Reset bounds if places returned are out of view.
     map.addListener('bounds_changed', function() {
@@ -76,15 +76,14 @@ function initMap() {
         //Set form values to the position of the place.
         document.getElementById("lat").value = searchMarker.getPosition().lat().toFixed(7);
         document.getElementById("lng").value = searchMarker.getPosition().lng().toFixed(7);
-
     });
- 
     addlocations(map, displayBounds);
 }
 
+
 //Fetch comments from the server.
 function addlocations(map, bounds) {
-    fetch('/comments').then(response => response.json()).then((comments) => {
+    fetch('/comments?'+ getFilterOptions()).then(response => response.json()).then((comments) => {
         console.log(comments);
         comments.forEach((comment) => {
             let contentString = '<h5>' + comment.name + '</h5>' +
@@ -119,5 +118,13 @@ async function deleteMarker(id) {
     window.location.reload(true); 
 }
 
+function getFilterOptions(){
+    options= '';
+    let selected = document.getElementsByClassName('active');
+    for (let i = 0; i< selected.length; i++){
+        options += 'option=' + selected[i].name + '&';
+    }
+    return options;
+}
 
 

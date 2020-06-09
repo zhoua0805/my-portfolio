@@ -18,6 +18,11 @@ import com.google.sps.data.MapsComment;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -36,10 +41,27 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/comments")
 public class CommentsServlet extends HttpServlet {
-
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Query query = new Query("Comment");
+        List<Filter> filters = new ArrayList<>();
+        String[] filterOptions = request.getParameterMap().get("option");
+        Query query = new Query("Comment"); //No filters if nothing is selected;
+
+        //Add filters if users select one or more filtering options.
+        if(filterOptions != null){ 
+            if (filterOptions.length == 1){  
+                query = new Query("Comment").setFilter
+                    (new FilterPredicate("category", FilterOperator.EQUAL, filterOptions[0]));
+            }else {  
+                //If multiple filters are applied, use compositefilter
+                //(CompositeFilter can only accept more than one filter.)
+                for (String option: filterOptions) {
+                    filters.add (new FilterPredicate("category", FilterOperator.EQUAL, option));
+                }
+                CompositeFilter optionsFilter = CompositeFilterOperator.or(filters);
+                query = new Query("Comment").setFilter(optionsFilter);
+            }
+        }
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
 
@@ -49,8 +71,9 @@ public class CommentsServlet extends HttpServlet {
             double lat = (double) entity.getProperty("lat");
             double lng = (double) entity.getProperty("lng");
             String name = (String) entity.getProperty("name");
+            String category = (String) entity.getProperty("category");
             String content = (String) entity.getProperty("content");
-            MapsComment comment = new MapsComment(id, lat, lng, name, content);
+            MapsComment comment = new MapsComment(id, lat, lng, name, category, content);
             mapsComments.add(comment);
         }
 
@@ -64,12 +87,14 @@ public class CommentsServlet extends HttpServlet {
             double lat = Double.valueOf(request.getParameter("lat"));
             double lng = Double.valueOf(request.getParameter("lng"));
             String name = request.getParameter("fullname");
+            String category = request.getParameter("category");
             String content = request.getParameter("comment");
 
             Entity commentEntity = new Entity("Comment");
             commentEntity.setProperty("lat", lat);
             commentEntity.setProperty("lng", lng);
             commentEntity.setProperty("name", name);
+            commentEntity.setProperty("category", category);
             commentEntity.setProperty("content", content);
 
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

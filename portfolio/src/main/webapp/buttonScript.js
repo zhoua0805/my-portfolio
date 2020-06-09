@@ -12,24 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.sps.data;
+function submitFilters() {
+    initMap(); 
+}
 
-/** An item on a comment list. */
-public final class MapsComment {
-
-    private final long id;
-    private final double lat; //latitude coordinate
-    private final double lng; //longitutde coordinate
-    private final String name;
-    private final String category;
-    private final String content;
-
-    public MapsComment(long id, double lat, double lng, String name, String category, String content) {
-        this.id = id;
-        this.lat = lat;
-        this.lng = lng;
-        this.name = name;
-        this.category = category;
-        this.content = content;
+//add onclick function to the buttons
+function selectFilters() {
+    let filters = document.getElementsByClassName("filter-btn");
+    for (let i = 0; i< filters.length; i++){
+            filters[i].addEventListener("click", function(){
+            if (this.className.includes(" active")){
+                this.className = this.className.replace(" active", "");
+            }else {
+                this.className += " active";
+            }  
+        });   
     }
 }
