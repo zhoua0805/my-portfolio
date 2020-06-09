@@ -34,13 +34,12 @@
             <div class="nav-wrapper" >  
       	        <a href="#header" class="brand-logo right">Alice</a>
       	        <a href="#" data-target="mobile-demo" class="sidenav-trigger left"><i class="material-icons">menu</i></a>
-      	        <ul class="left hide-on-med-and-down">
+      	        <ul class="left hide-on-med-and-down" id='web-navbar'>
                     <li><a href="#summary">About me</a></li>
                     <li><a href="#projects">Projects</a></li>       
                     <li><a href="#locations">My Locations</a></li>
                     <li><a href="#game">A Fun Quiz</a></li> 
                     <li><a href="#contacts">Contact Me</a></li>
-                    <li> <a class="waves-light btn" id="authentication"> </a> </li>
                 </ul>
             </div>
   	    </nav>
@@ -52,7 +51,6 @@
             <li><a href="#locations">My Locations</a></li>
             <li><a href="#game">A Fun Quiz</a></li>
             <li><a href="#contacts">Contact Me</a></li>
-            <li> <a class="waves-light btn" id="authentication-mobile"> </a> </li>
         </ul>     
   	    <script>
       	    document.addEventListener('DOMContentLoaded', function() {
@@ -148,7 +146,7 @@
             <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8qc6oxpo1PCtN8QouYOZlOhKu6748yx4&libraries=places&callback=initMap">
             </script>  
-            <div class="input-comments">
+            <div class="input-comments" id="input-comments" style="display:none">
                  <form class="row" action="/comments" method="POST">
                     <p class="col l3 s12">Latitude:
                         <input type="number" name="lat" id="lat" max="90" min="-90" step = "0.0000000000001" required></input> </p>

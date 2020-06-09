@@ -17,18 +17,26 @@
 function authenticate() {
     fetch('/auth').then(response => response.json()).then(auth => {
         console.log(auth);
-        const logInButton = document.getElementById("authentication");
-        const logInButtonMobile = document.getElementById("authentication-mobile");
+        const navbarContent = document.getElementById("web-navbar");
+        const navbarContentMobile = document.getElementById("mobile-demo");
 
+        //If the user is logged in, show the comment form.
         if (auth.Login) {
-            logInButton.innerText = "Log out";
-            logInButtonMobile.innerText = "Log out";
+            navbarContent.innerHTML += '<li><a class="waves-light btn" href="'
+                                        + auth.url +'">Log out</a> </li>';
+            navbarContentMobile.innerHTML += '<li> <a class="waves-light btn" href="'
+                                        + auth.url +'">Log out</a> </li>';
 
+            const commentForm = document.getElementById("input-comments");
+            commentForm.style.display = "block";
         }else{
-            logInButton.innerText = "Log in";
-            logInButtonMobile.innerText = "Log in";
+            navbarContent.innerHTML += '<li> <a class="waves-light btn" href="'
+                                        + auth.url +'">Log in</a> </li>';
+            navbarContentMobile.innerHTML += '<li> <a class="waves-light btn" href="'
+                                        + auth.url +'">Log in</a> </li>';
         }
-        logInButton.setAttribute("href", auth.url);
-        logInButtonMobile.setAttribute("href", auth.url);
+
     });
 }
+
+      
