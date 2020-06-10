@@ -88,12 +88,11 @@ async function addlocations(map, bounds) {
 
     const response = await fetch('/comments?'+ getFilterOptions());
     const comments = await response.json();
-    console.log(comments);
     comments.forEach((comment) => {
         let contentString = '<h5>' + comment.name + '</h5>' +
                     '<p>' + comment.content + '</p> </div>';
         if (auth.Loggedin) {
-            if (auth.email === comment.email) {
+            if (auth.userId === comment.userId) {
                 contentString += '<button onclick=\"deleteMarker('+ comment.id +')\"> Delete </button>';
             }
         }     

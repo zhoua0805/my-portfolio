@@ -32,8 +32,8 @@ public class LoginServlet extends HttpServlet {
         UserService userService = UserServiceFactory.getUserService();
         if (userService.isUserLoggedIn()) {
             String logoutUrl = userService.createLogoutURL("/");
-            String email = userService.getCurrentUser().getEmail();
-            LoginStatus loggedIn = new LoginStatus(true, logoutUrl, email);
+            String userId = userService.getCurrentUser().getUserId();
+            LoginStatus loggedIn = new LoginStatus(true, logoutUrl, userId);
 
             String json = new Gson().toJson(loggedIn);
             response.setContentType("application/json");
@@ -53,12 +53,12 @@ public class LoginServlet extends HttpServlet {
 class LoginStatus {
     private final boolean Loggedin;
     private final String url; 
-    private final String email;
+    private final String userId;
 
-    public LoginStatus(boolean Loggedin, String url, String email) {
+    public LoginStatus(boolean Loggedin, String url, String userId) {
         this.Loggedin = Loggedin; 
         this.url = url;
-        this.email = email;
+        this.userId = userId;
     }
 }
 
