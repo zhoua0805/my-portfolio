@@ -80,9 +80,14 @@ public class CommentsServlet extends HttpServlet {
             double lng = (double) entity.getProperty("lng");
             String name = (String) entity.getProperty("name");
             String category = (String) entity.getProperty("category");
-            String content = translate.translate((String) entity.getProperty("content"), 
+            String content = "";
+            if (languageCode.equals("original")) {
+                content = (String) entity.getProperty("content");
+            }else {
+                content = translate.translate((String) entity.getProperty("content"), 
                             Translate.TranslateOption.targetLanguage(languageCode))
                             .getTranslatedText();
+            }
             String userId = (String) entity.getProperty("userId");
             MapsComment comment = new MapsComment(id, lat, lng, name, category, content, userId);
             mapsComments.add(comment);
