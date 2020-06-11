@@ -51,6 +51,7 @@ public class CommentsServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Filter> filters = new ArrayList<>();
         String[] filterOptions = request.getParameterMap().get("option");
+        String languageCode = request.getParameterMap().get("language")[0];
         Query query = new Query("Comment"); //No filters if nothing is selected;
 
         //Add filters if users select one or more filtering options.
@@ -80,7 +81,7 @@ public class CommentsServlet extends HttpServlet {
             String name = (String) entity.getProperty("name");
             String category = (String) entity.getProperty("category");
             String content = translate.translate((String) entity.getProperty("content"), 
-                            Translate.TranslateOption.targetLanguage("en"))
+                            Translate.TranslateOption.targetLanguage(languageCode))
                             .getTranslatedText();
             String userId = (String) entity.getProperty("userId");
             MapsComment comment = new MapsComment(id, lat, lng, name, category, content, userId);
