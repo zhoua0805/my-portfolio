@@ -18,6 +18,8 @@ import com.google.sps.data.MapsComment;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.CompositeFilter;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -84,22 +86,29 @@ public class CommentsServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            double lat = Double.valueOf(request.getParameter("lat"));
-            double lng = Double.valueOf(request.getParameter("lng"));
-            String name = request.getParameter("fullname");
-            String category = request.getParameter("category");
-            String content = request.getParameter("comment");
+        UserService userService = UserServiceFactory.getUserService();
+        if (!userService.isUserLoggedIn()) {
+            response.sendRedirect("/");
+            return;
+        }
+        String email = userService.getCurrentUser().getEmail();
+        double lat = Double.valueOf(request.getParameter("lat"));
+        double lng = Double.valueOf(request.getParameter("lng"));
+        String name = request.getParameter("fullname");
+        String category = request.getParameter("category");
+        String content = request.getParameter("comment");
 
-            Entity commentEntity = new Entity("Comment");
-            commentEntity.setProperty("lat", lat);
-            commentEntity.setProperty("lng", lng);
-            commentEntity.setProperty("name", name);
-            commentEntity.setProperty("category", category);
-            commentEntity.setProperty("content", content);
+        Entity commentEntity = new Entity("Comment");
+        commentEntity.setProperty("email", email);
+        commentEntity.setProperty("lat", lat);
+        commentEntity.setProperty("lng", lng);
+        commentEntity.setProperty("name", name);
+        commentEntity.setProperty("category", category);
+        commentEntity.setProperty("content", content);
 
-            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-            datastore.put(commentEntity);
-            response.sendRedirect("/index.html#game");
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(commentEntity);
+        response.sendRedirect("/index.html#game");
     }
 }
 

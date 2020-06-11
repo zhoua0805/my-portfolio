@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>Alice's Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <script src="gameScript.js"></script>
-    <script src="mapsScript.js"></script>
-    <script src="buttonScript.js"></script>
+    <script src="js/gameScript.js"></script>
+    <script src="js/mapsScript.js"></script>
+    <script src="js/buttonScript.js"></script>
+    <script src="js/authScript.js"></script>
 
     <!--Import fonts and icons-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -26,14 +27,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   </head>
-  <body onload = "getFacts(); selectFilters();">    
+  <body onload = "getFacts(); selectFilters(); authenticate();">    
     <div id="content">                
         <div class="navbar-fixed">                  
         <nav>   
             <div class="nav-wrapper" >  
       	        <a href="#header" class="brand-logo right">Alice</a>
       	        <a href="#" data-target="mobile-demo" class="sidenav-trigger left"><i class="material-icons">menu</i></a>
-      	        <ul class="left hide-on-med-and-down">
+      	        <ul class="left hide-on-med-and-down" id='web-navbar'>
                     <li><a href="#summary">About me</a></li>
                     <li><a href="#projects">Projects</a></li>       
                     <li><a href="#locations">My Locations</a></li>
@@ -145,7 +146,7 @@
             <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8qc6oxpo1PCtN8QouYOZlOhKu6748yx4&libraries=places&callback=initMap">
             </script>  
-            <div class="input-comments">
+            <div class="input-comments" id="input-comments" style="display:none">
                  <form class="row" action="/comments" method="POST">
                     <p class="col l3 s12">Latitude:
                         <input type="number" name="lat" id="lat" max="90" min="-90" step = "0.0000000000001" required></input> </p>
