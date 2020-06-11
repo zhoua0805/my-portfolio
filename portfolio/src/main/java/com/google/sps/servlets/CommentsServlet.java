@@ -75,7 +75,8 @@ public class CommentsServlet extends HttpServlet {
             String name = (String) entity.getProperty("name");
             String category = (String) entity.getProperty("category");
             String content = (String) entity.getProperty("content");
-            MapsComment comment = new MapsComment(id, lat, lng, name, category, content);
+            String userId = (String) entity.getProperty("userId");
+            MapsComment comment = new MapsComment(id, lat, lng, name, category, content, userId);
             mapsComments.add(comment);
         }
 
@@ -91,7 +92,7 @@ public class CommentsServlet extends HttpServlet {
             response.sendRedirect("/");
             return;
         }
-        String email = userService.getCurrentUser().getEmail();
+        String userId = userService.getCurrentUser().getUserId();
         double lat = Double.valueOf(request.getParameter("lat"));
         double lng = Double.valueOf(request.getParameter("lng"));
         String name = request.getParameter("fullname");
@@ -99,7 +100,7 @@ public class CommentsServlet extends HttpServlet {
         String content = request.getParameter("comment");
 
         Entity commentEntity = new Entity("Comment");
-        commentEntity.setProperty("email", email);
+        commentEntity.setProperty("userId", userId);
         commentEntity.setProperty("lat", lat);
         commentEntity.setProperty("lng", lng);
         commentEntity.setProperty("name", name);

@@ -82,31 +82,36 @@ function initMap(){
 
 
 //Fetch comments from the server.
-function addlocations(map, bounds) {
-    fetch('/comments?'+ getFilterOptions()).then(response => response.json()).then((comments) => {
-        console.log(comments);
-        comments.forEach((comment) => {
-            let contentString = '<h5>' + comment.name + '</h5>' +
-                        '<p>' + comment.content + '</p> </div>' +
-                        '<button onclick=\"deleteMarker('+ comment.id +')\"> \
-                            Delete </button>';
-            let infowindow = new google.maps.InfoWindow({
-                content: contentString
-            });
+async function addlocations(map, bounds) {
+    const loginResponse = await fetch('/auth');
+    const auth = await loginResponse.json();
 
-            let marker = new google.maps.Marker({
-                position: {lat: comment.lat, lng: comment.lng},
-                map: map,
-            });
-            marker.addListener('click', function() {
-                infowindow.open(map, marker);
-               
-            });
-            
-            bounds.extend(marker.getPosition()); 
-            map.fitBounds(bounds);
+    const response = await fetch('/comments?'+ getFilterOptions());
+    const comments = await response.json();
+    comments.forEach((comment) => {
+        let contentString = '<h5>' + comment.name + '</h5>' +
+                    '<p>' + comment.content + '</p> </div>';
+        if (auth.Loggedin) {
+            if (auth.userId === comment.userId) {
+                contentString += '<button onclick=\"deleteMarker('+ comment.id +')\"> Delete </button>';
+            }
+        }     
+        let infowindow = new google.maps.InfoWindow({
+            content: contentString
         });
-  });
+
+        let marker = new google.maps.Marker({
+            position: {lat: comment.lat, lng: comment.lng},
+            map: map,
+        });
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+            
+        });
+        
+        bounds.extend(marker.getPosition()); 
+        map.fitBounds(bounds);
+    });
 }
 
 async function deleteMarker(id) {
