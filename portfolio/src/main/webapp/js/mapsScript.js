@@ -86,7 +86,7 @@ async function addlocations(map, bounds) {
     const loginResponse = await fetch('/auth');
     const auth = await loginResponse.json();
 
-    const response = await fetch('/comments?'+ getFilterOptions());
+    const response = await fetch('/comments?'+ getFilterOptions() + 'language=' + getLanguage());
     const comments = await response.json();
     comments.forEach((comment) => {
         let contentString = '<h5>' + comment.name + '</h5>' +
@@ -131,5 +131,11 @@ function getFilterOptions(){
     }
     return options;
 }
+
+function getLanguage(){
+    const language = document.getElementById('translate').value;
+    return language;
+}
+
 
 

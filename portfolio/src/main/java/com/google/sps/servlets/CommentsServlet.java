@@ -38,6 +38,10 @@ import java.lang.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
+
 
 /** Servlet that stores and returns comments data */
 
@@ -47,6 +51,7 @@ public class CommentsServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Filter> filters = new ArrayList<>();
         String[] filterOptions = request.getParameterMap().get("option");
+        String languageCode = request.getParameterMap().get("language")[0];
         Query query = new Query("Comment"); //No filters if nothing is selected;
 
         //Add filters if users select one or more filtering options.
@@ -66,6 +71,7 @@ public class CommentsServlet extends HttpServlet {
         }
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
+        Translate translate = TranslateOptions.getDefaultInstance().getService();
 
         List<MapsComment> mapsComments = new ArrayList<>();
         for (Entity entity : results.asIterable()) {
@@ -74,7 +80,14 @@ public class CommentsServlet extends HttpServlet {
             double lng = (double) entity.getProperty("lng");
             String name = (String) entity.getProperty("name");
             String category = (String) entity.getProperty("category");
-            String content = (String) entity.getProperty("content");
+            String content = "";
+            if (languageCode.equals("original")) {
+                content = (String) entity.getProperty("content");
+            }else {
+                content = translate.translate((String) entity.getProperty("content"), 
+                            Translate.TranslateOption.targetLanguage(languageCode))
+                            .getTranslatedText();
+            }
             String userId = (String) entity.getProperty("userId");
             MapsComment comment = new MapsComment(id, lat, lng, name, category, content, userId);
             mapsComments.add(comment);
