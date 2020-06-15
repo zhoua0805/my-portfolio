@@ -27,34 +27,45 @@ public final class FindMeetingQuery {
         long duration = request.getDuration();
         int start = 0;
         int end = 0;
+        int lastEnd = 0;
 
         // Get all the event time ranges and sort them by the start time. 
+        // Only add to the list if at least one attendee from the event is 
+        //a required attendee in the meeting request. (Otherwise, the event is irrelevant.)
         List<TimeRange> eventTimeRanges = new ArrayList();
         for (Event event: events) {
-            eventTimeRanges.add(event.getWhen());
+            for (String attendee: event.getAttendees()){
+                if (request.getAttendees().contains(attendee)){
+                    eventTimeRanges.add(event.getWhen());
+                    break;
+                }
+            }
         }
         Collections.sort(eventTimeRanges, TimeRange.ORDER_BY_START);
         
+        // Check for invalid input of duration.
         if(duration > TimeRange.WHOLE_DAY.duration()) {
             return validTimeRanges;
         }
-        
-        //Loop through all events.
-        for (int i = 0; i < eventTimeRanges.size(); i++) {
-            TimeRange eventTimeRange = eventTimeRanges.get(i);
-            end = eventTimeRange.start();
-            if (end-start >= duration) {
-                validTimeRanges.add(TimeRange.fromStartEnd(start,end,false));
-            }
-            start = eventTimeRange.end();
-        }
-
+        // If there are no scheduled events, the meeting can be scheduled at any time. 
         if (eventTimeRanges.size() == 0){
             validTimeRanges.add(TimeRange.fromStartEnd(TimeRange.START_OF_DAY,TimeRange.END_OF_DAY,true));
         }else {
-            int lastEventEnd = eventTimeRanges.get(eventTimeRanges.size()-1).end();
-            if (TimeRange.END_OF_DAY - lastEventEnd >= duration){
-                validTimeRanges.add(TimeRange.fromStartEnd(lastEventEnd,TimeRange.END_OF_DAY,true));
+             // Loop through all events.
+            for (int i = 0; i < eventTimeRanges.size(); i++) {
+                TimeRange eventTimeRange = eventTimeRanges.get(i);
+                end = eventTimeRange.start();
+                if (end-start >= duration) {
+                    validTimeRanges.add(TimeRange.fromStartEnd(start,end,false));
+                }
+                start = eventTimeRange.end();
+                if (eventTimeRange.end() > lastEnd) {
+                    lastEnd = eventTimeRange.end();
+                }
+            }
+            // Add the last event if applicable.
+            if (TimeRange.END_OF_DAY - lastEnd >= duration){
+                validTimeRanges.add(TimeRange.fromStartEnd(lastEnd,TimeRange.END_OF_DAY,true));
             }
         }
         return validTimeRanges;
