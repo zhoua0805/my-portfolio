@@ -32,10 +32,23 @@ public final class FindMeetingQuery {
             return Arrays.asList();
         }
 
+        // First get the time ranges that work for all attendees. 
         List<TimeRange> eventTimeRangesWithAllAttendees = 
             getValidEventTimeRanges(events, request.getAllAttendees());
-        Collection<TimeRange> meetingTimeRangesWithAllAttendees = getMeetingTimeRanges(eventTimeRangesWithAllAttendees, duration);
-        return meetingTimeRangesWithAllAttendees;
+        Collection<TimeRange> meetingTimeRangesWithAllAttendees = 
+            getMeetingTimeRanges(eventTimeRangesWithAllAttendees, duration);
+
+        // If there are no time ranges that work for all attendees, get the time
+        //ranges that work for only the mandatory attendees.
+        if (meetingTimeRangesWithAllAttendees.size() == 0) {
+            List<TimeRange> eventTimeRangesWithMandatoryAttendees = 
+                getValidEventTimeRanges(events, request.getAttendees());
+            Collection<TimeRange> meetingTimeRangesWithMandatoryAttendees = 
+                getMeetingTimeRanges(eventTimeRangesWithMandatoryAttendees, duration);
+            return meetingTimeRangesWithMandatoryAttendees;
+        }else{
+            return meetingTimeRangesWithAllAttendees;
+        }
     }
 
     // Get all the valid event time ranges and sort them by the start time. 
