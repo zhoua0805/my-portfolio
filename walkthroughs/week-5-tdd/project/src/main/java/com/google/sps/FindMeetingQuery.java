@@ -43,6 +43,13 @@ public final class FindMeetingQuery {
         if (meetingTimeRangesWithAllAttendees.size() == 0) {
             List<TimeRange> eventTimeRangesWithMandatoryAttendees = 
                 getValidEventTimeRanges(events, request.getAttendees());
+            
+            // In the case that there are optional attendees but no mandatory attendees, 
+            // treat the optional attendees as the mandatory attendees
+            if (eventTimeRangesWithMandatoryAttendees.size() == 0 && eventTimeRangesWithAllAttendees.size() != 0 ){
+                return meetingTimeRangesWithAllAttendees;
+            }
+
             Collection<TimeRange> meetingTimeRangesWithMandatoryAttendees = 
                 getMeetingTimeRanges(eventTimeRangesWithMandatoryAttendees, duration);
             return meetingTimeRangesWithMandatoryAttendees;
