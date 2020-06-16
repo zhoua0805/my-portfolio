@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 
 public final class FindMeetingQuery {
-    //Approach: start form start of day, and add available timeranges as we traverse through the events' timeranges
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
         long duration = request.getDuration();
 
@@ -75,6 +74,8 @@ public final class FindMeetingQuery {
         return eventTimeRanges;
     }
 
+    // Function that returns all valid time ranges based on a list of event time ranges
+    // Approach: start form start of day, and add available timeranges as we traverse through the events' timeranges
     public Collection<TimeRange> getMeetingTimeRanges(List<TimeRange> eventTimeRanges, long duration) {
         Collection<TimeRange> meetingTimeRanges = new ArrayList();
         int start = 0;
