@@ -15,48 +15,62 @@
 package com.google.sps;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 
 public final class FindMeetingQuery {
     //Approach: start form start of day, and add available timeranges as we traverse through the events' timeranges
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-        Collection<TimeRange> validTimeRanges = new ArrayList();
         long duration = request.getDuration();
-        int start = 0;
-        int end = 0;
-        int lastEnd = 0;
 
-        // Get all the event time ranges and sort them by the start time. 
-        // Only add to the list if at least one attendee from the event is 
-        //a required attendee in the meeting request. (Otherwise, the event is irrelevant.)
+        // Check for invalid input of duration.
+        if(duration > TimeRange.WHOLE_DAY.duration()) {
+            return Arrays.asList();
+        }
+
+        List<TimeRange> eventTimeRangesWithAllAttendees = 
+            getValidEventTimeRanges(events, request.getAllAttendees());
+        Collection<TimeRange> meetingTimeRangesWithAllAttendees = getMeetingTimeRanges(eventTimeRangesWithAllAttendees, duration);
+        return meetingTimeRangesWithAllAttendees;
+    }
+
+    // Get all the valid event time ranges and sort them by the start time. 
+    // Only add to the list if at least one attendee from the event is 
+    //a required attendee in the meeting request. (Otherwise, the event is irrelevant.)
+    public List<TimeRange> getValidEventTimeRanges(Collection<Event> events, Collection<String> attendees) {
         List<TimeRange> eventTimeRanges = new ArrayList();
         for (Event event: events) {
             for (String attendee: event.getAttendees()){
-                if (request.getAttendees().contains(attendee)){
+                if (attendees.contains(attendee)){
                     eventTimeRanges.add(event.getWhen());
                     break;
                 }
             }
         }
         Collections.sort(eventTimeRanges, TimeRange.ORDER_BY_START);
-        
-        // Check for invalid input of duration.
-        if(duration > TimeRange.WHOLE_DAY.duration()) {
-            return validTimeRanges;
-        }
+        return eventTimeRanges;
+    }
+
+    public Collection<TimeRange> getMeetingTimeRanges(List<TimeRange> eventTimeRanges, long duration) {
+        Collection<TimeRange> meetingTimeRanges = new ArrayList();
+        int start = 0;
+        int end = 0;
+        int lastEnd = 0;
+
         // If there are no scheduled events, the meeting can be scheduled at any time. 
         if (eventTimeRanges.size() == 0){
-            validTimeRanges.add(TimeRange.fromStartEnd(TimeRange.START_OF_DAY,TimeRange.END_OF_DAY,true));
+            meetingTimeRanges.add(TimeRange.fromStartEnd(TimeRange.START_OF_DAY,TimeRange.END_OF_DAY,true));
         }else {
              // Loop through all events.
             for (int i = 0; i < eventTimeRanges.size(); i++) {
                 TimeRange eventTimeRange = eventTimeRanges.get(i);
                 end = eventTimeRange.start();
                 if (end-start >= duration) {
-                    validTimeRanges.add(TimeRange.fromStartEnd(start,end,false));
+                    meetingTimeRanges.add(TimeRange.fromStartEnd(start,end,false));
                 }
                 start = eventTimeRange.end();
                 if (eventTimeRange.end() > lastEnd) {
@@ -65,9 +79,9 @@ public final class FindMeetingQuery {
             }
             // Add the last event if applicable.
             if (TimeRange.END_OF_DAY - lastEnd >= duration){
-                validTimeRanges.add(TimeRange.fromStartEnd(lastEnd,TimeRange.END_OF_DAY,true));
+                meetingTimeRanges.add(TimeRange.fromStartEnd(lastEnd,TimeRange.END_OF_DAY,true));
             }
         }
-        return validTimeRanges;
+        return meetingTimeRanges;
     }
 }
