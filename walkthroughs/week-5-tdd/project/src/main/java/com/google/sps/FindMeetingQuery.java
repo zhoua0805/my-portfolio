@@ -62,11 +62,11 @@ public final class FindMeetingQuery {
     // Only add to the list if at least one attendee from the event is 
     // a required attendee in the meeting request. (Otherwise, the event is irrelevant.)
     public List<TimeRange> getValidEventTimeRanges(Collection<Event> events, Collection<String> requestAttendees) {
-          List<TimeRange> eventTimeRanges = events.stream().filter(
-         event -> event.getAttendees().stream().anyMatch(
-                attendee -> requestAttendees.contains(attendee)))
-                .map(e -> e.getWhen())
-                .collect(Collectors.toList());
+        List<TimeRange> eventTimeRanges = events.stream().filter(
+            event -> event.getAttendees().stream().anyMatch(
+            attendee -> requestAttendees.contains(attendee)))
+            .map(e -> e.getWhen())
+            .collect(Collectors.toList());
         Collections.sort(eventTimeRanges, TimeRange.ORDER_BY_START);
         return eventTimeRanges;
     }
