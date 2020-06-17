@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.stream.*;
 
 public final class FindMeetingQuery {
     //Approach: start form start of day, and add available timeranges as we traverse through the events' timeranges
@@ -32,15 +33,11 @@ public final class FindMeetingQuery {
         // Get all the event time ranges and sort them by the start time. 
         // Only add to the list if at least one attendee from the event is 
         //a required attendee in the meeting request. (Otherwise, the event is irrelevant.)
-        List<TimeRange> eventTimeRanges = new ArrayList();
-        for (Event event: events) {
-            for (String attendee: event.getAttendees()){
-                if (request.getAttendees().contains(attendee)){
-                    eventTimeRanges.add(event.getWhen());
-                    break;
-                }
-            }
-        }       
+        List<TimeRange> eventTimeRanges = events.stream().filter(
+         event -> event.getAttendees().stream().anyMatch(
+             attendee -> request.getAttendees().contains(attendee)))
+         .map(e -> e.getWhen())
+         .collect(Collectors.toList());
         Collections.sort(eventTimeRanges, TimeRange.ORDER_BY_START);
         
         // Check for invalid input of duration.
