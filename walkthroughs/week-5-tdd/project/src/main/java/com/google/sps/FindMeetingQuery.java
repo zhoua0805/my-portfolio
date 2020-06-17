@@ -40,7 +40,7 @@ public final class FindMeetingQuery {
                     break;
                 }
             }
-        }
+        }       
         Collections.sort(eventTimeRanges, TimeRange.ORDER_BY_START);
         
         // Check for invalid input of duration.
@@ -51,9 +51,7 @@ public final class FindMeetingQuery {
         if (eventTimeRanges.size() == 0){
             validTimeRanges.add(TimeRange.fromStartEnd(TimeRange.START_OF_DAY,TimeRange.END_OF_DAY,true));
         }else {
-             // Loop through all events.
-            for (int i = 0; i < eventTimeRanges.size(); i++) {
-                TimeRange eventTimeRange = eventTimeRanges.get(i);
+            for (TimeRange eventTimeRange: eventTimeRanges) {
                 end = eventTimeRange.start();
                 if (end-start >= duration) {
                     validTimeRanges.add(TimeRange.fromStartEnd(start,end,false));
