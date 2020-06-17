@@ -32,26 +32,27 @@ public final class FindMeetingQuery {
             return Arrays.asList();
         }
 
-        // First get the time ranges that work for all attendees. 
-        List<TimeRange> eventTimeRangesWithAllAttendees = 
-            getValidEventTimeRanges(events, request.getAllAttendees());
+        // First get the time ranges that work for all attendees.
+        // Don't optimize this because optimization should only apply to
+        // mandatory attendees 
+        int[] meetingStatesWithAllAttendees = 
+            getMinutesState(events, request.getAllAttendees());
         Collection<TimeRange> meetingTimeRangesWithAllAttendees = 
-            getMeetingTimeRanges(eventTimeRangesWithAllAttendees, duration);
+            convertStateToTimeRanges(meetingStatesWithAllAttendees, duration, false);
 
-        // If there are no time ranges that work for all attendees, get the time
-        // ranges that work for only the mandatory attendees.
-        if (meetingTimeRangesWithAllAttendees.size() == 0) {
-            List<TimeRange> eventTimeRangesWithMandatoryAttendees = 
-                getValidEventTimeRanges(events, request.getAttendees());
-            
-            // In the case that there are optional attendees but no mandatory attendees, 
-            // treat the optional attendees as the mandatory attendees
-            if (eventTimeRangesWithMandatoryAttendees.size() == 0 && eventTimeRangesWithAllAttendees.size() != 0 ){
-                return meetingTimeRangesWithAllAttendees;
-            }
-
+        // If there are no time ranges that work for all attendees, get the optimized time
+        // ranges that work for best for the mandatory attendees.
+        // If there are no mandatory attendees, treat the optional attendees as mandatory attendees
+        // and optimize the timeranges
+        if (request.getAttendees().size() == 0){
+            Collection<TimeRange> meetingTimeRangesWithOptionalAttendees = 
+                convertStateToTimeRanges(meetingStatesWithAllAttendees, duration, true);
+            return meetingTimeRangesWithOptionalAttendees;
+        }else if (meetingTimeRangesWithAllAttendees.size() == 0) {
+            int[] meetingStatesWithMandatoryAttendees = 
+                getMinutesState(events, request.getAttendees());
             Collection<TimeRange> meetingTimeRangesWithMandatoryAttendees = 
-                getMeetingTimeRanges(eventTimeRangesWithMandatoryAttendees, duration);
+                convertStateToTimeRanges(meetingStatesWithMandatoryAttendees, duration, true);
             return meetingTimeRangesWithMandatoryAttendees;
         }else{
             return meetingTimeRangesWithAllAttendees;
@@ -72,7 +73,7 @@ public final class FindMeetingQuery {
     }
 
     // Function that returns all valid time ranges based on a list of event time ranges
-    // Approach: start form start of day, and add available timeranges as we traverse through the events' timeranges
+    // Approach 1: start form start of day, and add available timeranges as we traverse through the events' timeranges
     public Collection<TimeRange> getMeetingTimeRanges(List<TimeRange> eventTimeRanges, long duration) {
         Collection<TimeRange> meetingTimeRanges = new ArrayList();
         int start = TimeRange.getTimeInMinutes(0, 0);
@@ -93,5 +94,66 @@ public final class FindMeetingQuery {
         }
         
         return meetingTimeRanges;
+    }
+
+    // Approach 2: assign numbers to every minute in the day representing their state
+    public int[] getMinutesState(Collection<Event> events, Collection<String> requestAttendees) {
+        int[] minutesState = new int[24 * 60]; 
+        for (Event event: events) {
+            for (int i = event.getWhen().start(); i < event.getWhen().end(); i++) {
+                minutesState[i] -= getNumOfAttendees(event, requestAttendees);
+            }
+        }
+        return minutesState;
+    }
+
+    public Collection<TimeRange> convertStateToTimeRanges(int[] minutesState, long duration, boolean optimize) {
+        Collection<TimeRange> meetingTimeRanges = new ArrayList();
+        int prestart = TimeRange.getTimeInMinutes(0, 0) - 1;
+        int count = 0;
+        boolean consecutive = false;
+        int max = Arrays.stream(minutesState).max().getAsInt(); 
+        int min = Arrays.stream(minutesState).min().getAsInt();
+
+        if (!optimize){
+            if (max != 0){
+                return Arrays.asList();
+            }
+        }
+        if (max == min && max != 0) {
+            return Arrays.asList();
+        }
+
+        for (int i = 0; i < minutesState.length; i++) {
+            int state = minutesState[i];
+            if (state == max){
+                consecutive = true;
+            }else{
+                consecutive = false;
+            }
+            if (consecutive) {
+                count += 1;
+            }else{
+                if (count >= duration) {
+                    meetingTimeRanges.add(TimeRange. fromStartDuration(prestart+1, count));
+                }
+                prestart = i;
+                count = 0;
+            }
+        }
+        if (TimeRange.END_OF_DAY - prestart  >= duration) {
+            meetingTimeRanges.add(TimeRange. fromStartEnd(prestart+1, TimeRange.END_OF_DAY, true));
+        }
+
+        System.out.printf("An optimization is found with %d people unavailable. %n", Math.abs(max));
+        return meetingTimeRanges;
+    }
+
+    // Get the number of requested attendees in an event
+    public long getNumOfAttendees(Event event, Collection<String> requestAttendees) {
+        long numOfAttendees = event.getAttendees().stream().filter(
+            attendee -> requestAttendees.contains(attendee))
+            .count();
+        return numOfAttendees;
     }
 }
