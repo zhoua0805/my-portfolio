@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.stream.*;
 
 public final class FindMeetingQuery {
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
@@ -60,16 +61,12 @@ public final class FindMeetingQuery {
     // Get all the valid event time ranges and sort them by the start time. 
     // Only add to the list if at least one attendee from the event is 
     // a required attendee in the meeting request. (Otherwise, the event is irrelevant.)
-    public List<TimeRange> getValidEventTimeRanges(Collection<Event> events, Collection<String> attendees) {
-        List<TimeRange> eventTimeRanges = new ArrayList();
-        for (Event event: events) {
-            for (String attendee: event.getAttendees()){
-                if (attendees.contains(attendee)){
-                    eventTimeRanges.add(event.getWhen());
-                    break;
-                }
-            }
-        }
+    public List<TimeRange> getValidEventTimeRanges(Collection<Event> events, Collection<String> requestAttendees) {
+          List<TimeRange> eventTimeRanges = events.stream().filter(
+         event -> event.getAttendees().stream().anyMatch(
+                attendee -> requestAttendees.contains(attendee)))
+                .map(e -> e.getWhen())
+                .collect(Collectors.toList());
         Collections.sort(eventTimeRanges, TimeRange.ORDER_BY_START);
         return eventTimeRanges;
     }
@@ -78,12 +75,10 @@ public final class FindMeetingQuery {
     // Approach: start form start of day, and add available timeranges as we traverse through the events' timeranges
     public Collection<TimeRange> getMeetingTimeRanges(List<TimeRange> eventTimeRanges, long duration) {
         Collection<TimeRange> meetingTimeRanges = new ArrayList();
-        int start = 0;
-        int end = 0;
+        int start = TimeRange.getTimeInMinutes(0, 0);
+        int end = TimeRange.getTimeInMinutes(0, 0);
 
-        // Loop through all events.
-        for (int i = 0; i < eventTimeRanges.size(); i++) {
-            TimeRange eventTimeRange = eventTimeRanges.get(i);
+        for (TimeRange eventTimeRange: eventTimeRanges) {
             end = eventTimeRange.start();
             if (end-start >= duration) {
                 meetingTimeRanges.add(TimeRange.fromStartEnd(start,end,false));
