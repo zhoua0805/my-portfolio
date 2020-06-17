@@ -26,18 +26,18 @@ public final class FindMeetingQuery {
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
         Collection<TimeRange> validTimeRanges = new ArrayList();
         long duration = request.getDuration();
-        int start = 0;
-        int end = 0;
-        int lastEnd = 0;
+        int start = TimeRange.getTimeInMinutes(0, 0);
+        int end = TimeRange.getTimeInMinutes(0, 0);
+        int lastEnd = TimeRange.getTimeInMinutes(0, 0);
 
         // Get all the event time ranges and sort them by the start time. 
         // Only add to the list if at least one attendee from the event is 
         //a required attendee in the meeting request. (Otherwise, the event is irrelevant.)
         List<TimeRange> eventTimeRanges = events.stream().filter(
          event -> event.getAttendees().stream().anyMatch(
-             attendee -> request.getAttendees().contains(attendee)))
-         .map(e -> e.getWhen())
-         .collect(Collectors.toList());
+                attendee -> request.getAttendees().contains(attendee)))
+                .map(e -> e.getWhen())
+                .collect(Collectors.toList());
         Collections.sort(eventTimeRanges, TimeRange.ORDER_BY_START);
         
         // Check for invalid input of duration.
