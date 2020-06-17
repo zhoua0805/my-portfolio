@@ -112,25 +112,44 @@ public final class FindMeetingQuery {
     // that work for everyone (or an empty list if none); if optimize is true, return the best solution.
     public Collection<TimeRange> convertStateToTimeRanges(int[] minutesState, 
                 long duration, long numOfAttendees, boolean optimize) {
+        Collection<TimeRange> meetingTimeRanges = Arrays.asList();
+        int max = Arrays.stream(minutesState).max().getAsInt(); 
+        int min = Arrays.stream(minutesState).min().getAsInt();
+        int j = 0;
+
+        if (!optimize){
+            return getTimeRangesBasedOnState(minutesState, duration, 0);
+        }
+
+        // The valid timeranges are sequences with consecutive best-state's.
+        for (j = max; j >= min; j--) {
+            // If we end up having to search the worst possible state, this means no one 
+            // is actually availble, so just return an empty list.
+            if (Math.abs(j) == numOfAttendees && numOfAttendees != 0) {
+                return Arrays.asList();
+            }
+
+            meetingTimeRanges = 
+                    getTimeRangesBasedOnState(minutesState, duration, j);
+
+            // Include the next state to search if no time ranges are found
+            // Otherwise, break
+            if (meetingTimeRanges.size() != 0) {
+                break;
+            }
+        }
+
+        System.out.printf("An optimization is found with %d person(s) unavailable. %n", Math.abs(j));
+        return meetingTimeRanges;
+    }
+
+    public Collection<TimeRange> getTimeRangesBasedOnState(int[] minutesState, long duration, int state) {
         Collection<TimeRange> meetingTimeRanges = new ArrayList();
         int prestart = TimeRange.getTimeInMinutes(0, 0) - 1;
         int count = 0;
-        int max = Arrays.stream(minutesState).max().getAsInt(); 
-        int min = Arrays.stream(minutesState).min().getAsInt();
-
-        if (!optimize){
-            if (max != 0){
-                return Arrays.asList();
-            }
-        }
-        // Return an empty list if no one will be available
-        if (Math.abs(max) == numOfAttendees && numOfAttendees != 0) {
-            return Arrays.asList();
-        }
-        // The valid timeranges are sequences with consecutive max-state's.
         for (int i = 0; i < minutesState.length; i++) {
-            int state = minutesState[i];
-            if (state == max){
+            int currentState = minutesState[i];
+            if (currentState >= state){
                 count += 1;
             }else{
                 if (count >= duration) {
@@ -144,8 +163,6 @@ public final class FindMeetingQuery {
         if (TimeRange.END_OF_DAY - prestart  >= duration) {
             meetingTimeRanges.add(TimeRange. fromStartEnd(prestart+1, TimeRange.END_OF_DAY, true));
         }
-
-        System.out.printf("An optimization is found with %d people unavailable. %n", Math.abs(max));
         return meetingTimeRanges;
     }
 
