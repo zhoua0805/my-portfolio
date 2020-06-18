@@ -21,16 +21,26 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+
 import java.util.stream.*;
 
 public final class FindMeetingQuery {
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
         long duration = request.getDuration();
 
-        // Check for invalid input of duration.
-        if(duration > TimeRange.WHOLE_DAY.duration()) {
-            return Arrays.asList();
-        }
+        int start = TimeRange.getTimeInMinutes(0, 0);
+        int end = TimeRange.getTimeInMinutes(0, 0);
+        int lastEnd = TimeRange.getTimeInMinutes(0, 0);
+
+        // Get all the event time ranges and sort them by the start time. 
+        // Only add to the list if at least one attendee from the event is 
+        //a required attendee in the meeting request. (Otherwise, the event is irrelevant.)
+        List<TimeRange> eventTimeRanges = events.stream().filter(
+         event -> event.getAttendees().stream().anyMatch(
+                attendee -> request.getAttendees().contains(attendee)))
+                .map(e -> e.getWhen())
+                .collect(Collectors.toList());
+        Collections.sort(eventTimeRanges, TimeRange.ORDER_BY_START);
 
         // First get the time ranges that work for all attendees. 
         List<TimeRange> eventTimeRangesWithAllAttendees = 
