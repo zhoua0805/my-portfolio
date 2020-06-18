@@ -95,7 +95,7 @@ public final class FindMeetingQuery {
                 start = eventTimeRange.end();
             }
         }
-        // Add the last event if applicable.
+        // Check and add the time after the last event
         if (TimeRange.END_OF_DAY - start >= duration){
             meetingTimeRanges.add(TimeRange.fromStartEnd(start,TimeRange.END_OF_DAY,true));
         }
