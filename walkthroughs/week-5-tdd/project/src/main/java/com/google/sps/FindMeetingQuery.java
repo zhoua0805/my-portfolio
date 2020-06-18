@@ -21,13 +21,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-
 import java.util.stream.*;
 
 public final class FindMeetingQuery {
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
         long duration = request.getDuration();
-
         int start = TimeRange.getTimeInMinutes(0, 0);
         int end = TimeRange.getTimeInMinutes(0, 0);
         int lastEnd = TimeRange.getTimeInMinutes(0, 0);
@@ -82,7 +80,7 @@ public final class FindMeetingQuery {
     }
 
     // Function that returns all valid time ranges based on a list of event time ranges
-    // Approach: start form start of day, and add available timeranges as we traverse through the events' timeranges
+    // Approach: start from start of day, and add available timeranges as we traverse through the events' timeranges
     public Collection<TimeRange> getMeetingTimeRanges(List<TimeRange> eventTimeRanges, long duration) {
         Collection<TimeRange> meetingTimeRanges = new ArrayList();
         int start = TimeRange.getTimeInMinutes(0, 0);
