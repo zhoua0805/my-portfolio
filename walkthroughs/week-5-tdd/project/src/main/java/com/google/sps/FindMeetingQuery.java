@@ -26,7 +26,7 @@ import java.util.stream.*;
 public final class FindMeetingQuery {
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
         long duration = request.getDuration();
-
+      
         // Check for invalid input of duration.
         if(duration > TimeRange.WHOLE_DAY.duration()) {
             return Arrays.asList();
