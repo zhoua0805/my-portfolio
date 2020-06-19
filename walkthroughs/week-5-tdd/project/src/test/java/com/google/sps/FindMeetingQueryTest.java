@@ -124,9 +124,9 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void optionalAttendeeIsNotConsidered() {
+  public void optionalAttendeeWithConflict_returnMandatoryOnly() {
     // Based on everyAttendeeIsConsidered, add an optional attendee C who has an 
-    // all day event. We should wee the same result as optional C won't be considered.
+    // all day event. We should see the same result as optional C won't be considered.
     // 
     // Events (with optional attendees)  : |--------------C--------------|
     // Events (with mandatory attendees) :       |--A--|     |--B--|
@@ -344,7 +344,7 @@ public final class FindMeetingQueryTest {
   public void notEnoughRoomForOptionalAttendee() {
     // Based on just EnoughRoom, add an optional attendee with an event 
     // outside of the mandatory attendees' ranges, the result will ignore
-    // the optional attendee since the room won't be enough for him
+    // the optional attendee since the room won't be enough for them
     // 
     // Events (with optional attendees)  :       |B|
     // Events (with mandatory attendees) : |--A--|     |----A----|

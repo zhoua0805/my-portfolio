@@ -30,69 +30,54 @@ public final class FindMeetingQuery {
         int end = TimeRange.getTimeInMinutes(0, 0);
         int lastEnd = TimeRange.getTimeInMinutes(0, 0);
 
-        // Get all the event time ranges and sort them by the start time. 
-        // Only add to the list if at least one attendee from the event is 
-        //a required attendee in the meeting request. (Otherwise, the event is irrelevant.)
-        List<TimeRange> eventTimeRanges = events.stream().filter(
-         event -> event.getAttendees().stream().anyMatch(
-                attendee -> request.getAttendees().contains(attendee)))
-                .map(e -> e.getWhen())
-                .collect(Collectors.toList());
-        Collections.sort(eventTimeRanges, TimeRange.ORDER_BY_START);
-
         // First get the time ranges that work for all attendees. 
-        List<TimeRange> eventTimeRangesWithAllAttendees = 
-            getValidEventTimeRanges(events, request.getAllAttendees());
+        List<TimeRange> blockedTimeRangesWithAllAttendees = 
+            getBlockedEventTimeRanges(events, request.getAllAttendees());
         Collection<TimeRange> meetingTimeRangesWithAllAttendees = 
-            getMeetingTimeRanges(eventTimeRangesWithAllAttendees, duration);
+            getMeetingTimeRanges(blockedTimeRangesWithAllAttendees, duration);
 
         // If there are no time ranges that work for all attendees, get the time
         // ranges that work for only the mandatory attendees.
-        if (meetingTimeRangesWithAllAttendees.size() == 0) {
-            List<TimeRange> eventTimeRangesWithMandatoryAttendees = 
-                getValidEventTimeRanges(events, request.getAttendees());
-            
-            // In the case that there are optional attendees but no mandatory attendees, 
-            // treat the optional attendees as the mandatory attendees
-            if (eventTimeRangesWithMandatoryAttendees.size() == 0 && eventTimeRangesWithAllAttendees.size() != 0 ){
-                return meetingTimeRangesWithAllAttendees;
-            }
-
+        // In the case that there are optional attendees but no mandatory attendees, 
+        // treat the optional attendees as the mandatory attendees
+        if (meetingTimeRangesWithAllAttendees.size() == 0 && request.getAttendees().size() != 0) {
+            List<TimeRange> blockedTimeRangesWithMandatoryAttendees = 
+                getBlockedEventTimeRanges(events, request.getAttendees());
             Collection<TimeRange> meetingTimeRangesWithMandatoryAttendees = 
-                getMeetingTimeRanges(eventTimeRangesWithMandatoryAttendees, duration);
+                getMeetingTimeRanges(blockedTimeRangesWithMandatoryAttendees, duration);
             return meetingTimeRangesWithMandatoryAttendees;
         }else{
             return meetingTimeRangesWithAllAttendees;
         }
     }
 
-    // Get all the valid event time ranges and sort them by the start time. 
+    // Get all the blocked event time ranges and sort them by the start time. 
     // Only add to the list if at least one attendee from the event is 
     // a required attendee in the meeting request. (Otherwise, the event is irrelevant.)
-    public List<TimeRange> getValidEventTimeRanges(Collection<Event> events, Collection<String> requestAttendees) {
-        List<TimeRange> eventTimeRanges = events.stream().filter(
+    public List<TimeRange> getBlockedEventTimeRanges(Collection<Event> events, Collection<String> requestAttendees) {
+        List<TimeRange> blockedTimeRanges = events.stream().filter(
             event -> event.getAttendees().stream().anyMatch(
             attendee -> requestAttendees.contains(attendee)))
             .map(e -> e.getWhen())
             .collect(Collectors.toList());
-        Collections.sort(eventTimeRanges, TimeRange.ORDER_BY_START);
-        return eventTimeRanges;
+        Collections.sort(blockedTimeRanges, TimeRange.ORDER_BY_START);
+        return blockedTimeRanges;
     }
 
-    // Function that returns all valid time ranges based on a list of event time ranges
+    // Function that returns all valid time ranges based on a list of blocked time ranges
     // Approach: start from start of day, and add available timeranges as we traverse through the events' timeranges
-    public Collection<TimeRange> getMeetingTimeRanges(List<TimeRange> eventTimeRanges, long duration) {
+    public Collection<TimeRange> getMeetingTimeRanges(List<TimeRange> blockedTimeRanges, long duration) {
         Collection<TimeRange> meetingTimeRanges = new ArrayList();
         int start = TimeRange.getTimeInMinutes(0, 0);
         int end = TimeRange.getTimeInMinutes(0, 0);
 
-        for (TimeRange eventTimeRange: eventTimeRanges) {
-            end = eventTimeRange.start();
+        for (TimeRange blockedTimeRange: blockedTimeRanges) {
+            end = blockedTimeRange.start();
             if (end-start >= duration) {
                 meetingTimeRanges.add(TimeRange.fromStartEnd(start,end,false));
             }
-            if (eventTimeRange.end() > start) {
-                start = eventTimeRange.end();
+            if (blockedTimeRange.end() > start) {
+                start = blockedTimeRange.end();
             }
         }
         // Check and add the time after the last event
