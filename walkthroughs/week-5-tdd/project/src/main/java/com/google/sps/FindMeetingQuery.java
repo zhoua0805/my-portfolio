@@ -26,7 +26,7 @@ import java.util.stream.*;
 public final class FindMeetingQuery {
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
         long duration = request.getDuration();
-      
+
         // Check for invalid input of duration.
         if(duration > TimeRange.WHOLE_DAY.duration()) {
             return Arrays.asList();
@@ -53,42 +53,43 @@ public final class FindMeetingQuery {
                 getMinutesState(events, request.getAttendees());
             Collection<TimeRange> meetingTimeRangesWithMandatoryAttendees = 
                 convertStateToTimeRanges(meetingStatesWithMandatoryAttendees, duration, request.getAttendees().size(), true);
+
             return meetingTimeRangesWithMandatoryAttendees;
         }else{
             return meetingTimeRangesWithAllAttendees;
         }
     }
 
-    // Get all the valid event time ranges and sort them by the start time. 
+    // Get all the blocked event time ranges and sort them by the start time. 
     // Only add to the list if at least one attendee from the event is 
     // a required attendee in the meeting request. (Otherwise, the event is irrelevant.)
-    public List<TimeRange> getValidEventTimeRanges(Collection<Event> events, Collection<String> requestAttendees) {
-        List<TimeRange> eventTimeRanges = events.stream().filter(
+    public List<TimeRange> getBlockedEventTimeRanges(Collection<Event> events, Collection<String> requestAttendees) {
+        List<TimeRange> blockedTimeRanges = events.stream().filter(
             event -> event.getAttendees().stream().anyMatch(
             attendee -> requestAttendees.contains(attendee)))
             .map(e -> e.getWhen())
             .collect(Collectors.toList());
-        Collections.sort(eventTimeRanges, TimeRange.ORDER_BY_START);
-        return eventTimeRanges;
+        Collections.sort(blockedTimeRanges, TimeRange.ORDER_BY_START);
+        return blockedTimeRanges;
     }
 
-    // Function that returns all valid time ranges based on a list of event time ranges
-    // Approach 1: start form start of day, and add available timeranges as we traverse through the events' timeranges
-    public Collection<TimeRange> getMeetingTimeRanges(List<TimeRange> eventTimeRanges, long duration) {
+    // Function that returns all valid time ranges based on a list of blocked time ranges
+    // Approach: start from start of day, and add available timeranges as we traverse through the events' timeranges
+    public Collection<TimeRange> getMeetingTimeRanges(List<TimeRange> blockedTimeRanges, long duration) {
         Collection<TimeRange> meetingTimeRanges = new ArrayList();
         int start = TimeRange.getTimeInMinutes(0, 0);
         int end = TimeRange.getTimeInMinutes(0, 0);
 
-        for (TimeRange eventTimeRange: eventTimeRanges) {
-            end = eventTimeRange.start();
+        for (TimeRange blockedTimeRange: blockedTimeRanges) {
+            end = blockedTimeRange.start();
             if (end-start >= duration) {
                 meetingTimeRanges.add(TimeRange.fromStartEnd(start,end,false));
             }
-            if (eventTimeRange.end() > start) {
-                start = eventTimeRange.end();
+            if (blockedTimeRange.end() > start) {
+                start = blockedTimeRange.end();
             }
         }
-        // Add the last event if applicable.
+        // Check and add the time after the last event
         if (TimeRange.END_OF_DAY - start >= duration){
             meetingTimeRanges.add(TimeRange.fromStartEnd(start,TimeRange.END_OF_DAY,true));
         }
