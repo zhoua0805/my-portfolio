@@ -46,58 +46,22 @@ public final class FindMeetingQuery {
         // and optimize the timeranges
         if (request.getAttendees().size() == 0){
             Collection<TimeRange> meetingTimeRangesWithOptionalAttendees = 
-                convertStateToTimeRanges(meetingStatesWithAllAttendees, duration, request.getAllAttendees().size(), true);
+                convertStateToTimeRanges(meetingStatesWithAllAttendees, duration, 
+                request.getAllAttendees().size(), true);
             return meetingTimeRangesWithOptionalAttendees;
         }else if (meetingTimeRangesWithAllAttendees.size() == 0) {
             int[] meetingStatesWithMandatoryAttendees = 
                 getMinutesState(events, request.getAttendees());
             Collection<TimeRange> meetingTimeRangesWithMandatoryAttendees = 
-                convertStateToTimeRanges(meetingStatesWithMandatoryAttendees, duration, request.getAttendees().size(), true);
-
+                convertStateToTimeRanges(meetingStatesWithMandatoryAttendees, duration, 
+                request.getAttendees().size(), true);
             return meetingTimeRangesWithMandatoryAttendees;
         }else{
             return meetingTimeRangesWithAllAttendees;
         }
     }
 
-    // Get all the blocked event time ranges and sort them by the start time. 
-    // Only add to the list if at least one attendee from the event is 
-    // a required attendee in the meeting request. (Otherwise, the event is irrelevant.)
-    public List<TimeRange> getBlockedEventTimeRanges(Collection<Event> events, Collection<String> requestAttendees) {
-        List<TimeRange> blockedTimeRanges = events.stream().filter(
-            event -> event.getAttendees().stream().anyMatch(
-            attendee -> requestAttendees.contains(attendee)))
-            .map(e -> e.getWhen())
-            .collect(Collectors.toList());
-        Collections.sort(blockedTimeRanges, TimeRange.ORDER_BY_START);
-        return blockedTimeRanges;
-    }
-
-    // Function that returns all valid time ranges based on a list of blocked time ranges
-    // Approach: start from start of day, and add available timeranges as we traverse through the events' timeranges
-    public Collection<TimeRange> getMeetingTimeRanges(List<TimeRange> blockedTimeRanges, long duration) {
-        Collection<TimeRange> meetingTimeRanges = new ArrayList();
-        int start = TimeRange.getTimeInMinutes(0, 0);
-        int end = TimeRange.getTimeInMinutes(0, 0);
-
-        for (TimeRange blockedTimeRange: blockedTimeRanges) {
-            end = blockedTimeRange.start();
-            if (end-start >= duration) {
-                meetingTimeRanges.add(TimeRange.fromStartEnd(start,end,false));
-            }
-            if (blockedTimeRange.end() > start) {
-                start = blockedTimeRange.end();
-            }
-        }
-        // Check and add the time after the last event
-        if (TimeRange.END_OF_DAY - start >= duration){
-            meetingTimeRanges.add(TimeRange.fromStartEnd(start,TimeRange.END_OF_DAY,true));
-        }
-        
-        return meetingTimeRanges;
-    }
-
-    // Approach 2: assign numbers to every minute in the day representing their state
+    // Approach: assign numbers to every minute in the day representing their state
     // 0 means not occupied, -1 means 1 person is not available at that minute, etc.
     public int[] getMinutesState(Collection<Event> events, Collection<String> requestAttendees) {
         int[] minutesState = new int[24 * 60]; 
