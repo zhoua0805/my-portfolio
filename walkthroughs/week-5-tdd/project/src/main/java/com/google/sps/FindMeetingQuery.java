@@ -79,21 +79,19 @@ public final class FindMeetingQuery {
                 long duration, long numOfAttendees, boolean optimize) {
         Collection<TimeRange> meetingTimeRanges = Arrays.asList();
         int max = Arrays.stream(minutesState).max().getAsInt(); 
-        int min = Arrays.stream(minutesState).min().getAsInt();
         int j = 0;
 
         if (!optimize){
             return getTimeRangesBasedOnState(minutesState, duration, 0);
         }
 
-        // The valid timeranges are sequences with consecutive best-state's.
-        for (j = max; j >= min; j--) {
-            // If we end up having to search the worst possible state, this means no one 
-            // is actually availble, so just return an empty list.
-            if (Math.abs(j) == numOfAttendees && numOfAttendees != 0) {
-                return Arrays.asList();
-            }
+        //if there are no requested attendees, return the entire day
+        if (numOfAttendees == 0) {
+            return Arrays.asList(TimeRange.WHOLE_DAY);
+        }
 
+        // The valid timeranges are sequences with consecutive best-state's.
+        for (j = max; j >= Math.max(Arrays.stream(minutesState).min().getAsInt(), 1 - numOfAttendees); j--) {
             meetingTimeRanges = 
                     getTimeRangesBasedOnState(minutesState, duration, j);
 
@@ -118,7 +116,7 @@ public final class FindMeetingQuery {
                 count += 1;
             }else{
                 if (count >= duration) {
-                    meetingTimeRanges.add(TimeRange. fromStartDuration(prestart+1, count));
+                    meetingTimeRanges.add(TimeRange.fromStartDuration(prestart + 1, count));
                 }
                 prestart = i;
                 count = 0;
