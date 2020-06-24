@@ -49,6 +49,16 @@ public final class MeetingRequest {
     return Collections.unmodifiableCollection(optional_attendees);
   }
 
+   /**
+   * Returns a read-only copy of all the people requested this meeting.
+   */
+  public Collection<String> getAllAttendees() {
+      Collection<String> allAttendees = new HashSet<>();
+      allAttendees.addAll(attendees);
+      allAttendees.addAll(optional_attendees);
+      return Collections.unmodifiableCollection(allAttendees);
+  }
+
   /**
    * Adds one optional attendee for the meeting.
    */
